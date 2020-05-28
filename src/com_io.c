@@ -58,8 +58,7 @@ void int_hexasci_print(UI8 input)
 UI8 PutChar(UI8 data)
 {	
 	UI16 Temp16;
-						
-	__disable_irq();		
+	
 	Temp16=USB_TX_end;
 	Temp16++;
 	if(Temp16>=USB_TX_BUFFSIZE) Temp16=0;
@@ -68,19 +67,11 @@ UI8 PutChar(UI8 data)
 	{        		
 				USB_TX_Buffer[USB_TX_end] = data;   // dump character in buffer
 				USB_TX_end=Temp16;
-				
-				//Port->CTRLA &= ~(3<<USART_DREINTLVL_gp); //Clear bits
-				//Port->CTRLA |= (INT_HI<<USART_DREINTLVL_gp); //Enable Data Register Empty interrupt
 				USART1->CR1 |= USART_CR1_TXEIE;
 				__enable_irq();
 				return(1);                  // return success
 	}
-	else 
-	{
-		__enable_irq();
-		return 0;
-	}
-	 
+	else return 0;
 }
 
 
@@ -112,22 +103,15 @@ UI8 comms_getch(void)
 {
     UI8     temp;
 	              
-		__disable_irq();
 		if(USB_RX_start == USB_RX_end)
-		{
-				  __enable_irq();
 					return(0);
-		}
 		else
 		{
 				temp = USB_RX_Buffer[USB_RX_start];
 				USB_RX_start++;
-//                USB_RX_start&=(USB_RX_BUFFSIZE - 1);
 				if(USB_RX_start>=USB_RX_BUFFSIZE )USB_RX_start=0;
-				__enable_irq();
 				return(temp);
 		}
-		__enable_irq();
     return(0);
 }
 
@@ -141,14 +125,14 @@ void USART1_IRQHandler( void )
 		
 		k=USB_RX_end;
 		k++;
-		k&=( USB_RX_BUFFSIZE - 1 ); // wrap
+		if(k>=USB_RX_BUFFSIZE) k=0; 
 
 		if( k!=USB_RX_start )
 		{
 			USB_RX_Buffer[USB_RX_end] = temp;   // dump UI8acter in buffer
 
 			USB_RX_end++;
-			USB_RX_end&=( USB_RX_BUFFSIZE - 1 ); // wrap pointer...
+			if(USB_RX_end>= USB_RX_BUFFSIZE ) USB_RX_end=0; // wrap pointer...
 		}
 	}
 	if( ( USART1->ISR & USART_ISR_TXE) == USART_ISR_TXE)
@@ -414,7 +398,7 @@ UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...)
 	UI8 col;
 	UI8 index;
 	
-	UI16 l;
+//	UI16 l;
 	
 	row = x;
 	col = y;

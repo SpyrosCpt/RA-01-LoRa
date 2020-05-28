@@ -81,5 +81,5 @@ extern void LoRaPrint(UI8 *buffer);
 extern int parsePacket(void);
 extern int LoraRead(void);
 extern int LoRaAvailable(void);
-
+extern void TestLoRaReceiver(void);
 extern UI16 _packetIndex;

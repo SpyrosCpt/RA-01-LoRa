@@ -329,31 +329,18 @@ void ssd1306_WriteCommand(UI8 byte)
 
 void ssd1306_WriteData(UI8 byte)
 {
-	//UI8 data[1024];
-	UI16 i,j;
-	
-/*	ssd1306_WriteCommand(0xB0);
-	ssd1306_WriteCommand(0x00);
-	ssd1306_WriteCommand(0x10);*/
-	//for(i = 0; i < 1024; i++) data[i] = 0xFF;
-	
+	UI16 i;
+
 	OLED_CS_CLR(); //CS Select OLED
 	OLED_DC_SET();//DC Reset
-	//BB_WriteData(byte);//Send data
 	for(i=0;i<100;i++) ;
-	//setPageAddress(0, 7);
-	//setColAddress(0, 127);
 	BB_WriteData(byte);
-	//delayms(1);
-	//for(j = 0; j < 1024; j++) BB_WriteData(0xFF);
-//	delayms(1);
 	for(i=0;i<100;i++) ;
 	OLED_CS_SET(); //CS Unselect OLED
 }
 
 void ssd1306_WriteData1(UI8 arr[], UI8 bytesToWrite)//UI8 byte)
 {
-	//UI8 data[1024];
 	UI16 i,j;
 	
 	OLED_CS_CLR(); //CS Select OLED

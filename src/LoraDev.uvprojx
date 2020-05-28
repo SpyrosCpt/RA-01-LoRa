@@ -398,21 +398,6 @@
               <FilePath>.\radio.h</FilePath>
             </File>
             <File>
-              <FileName>stm32f0xx_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\stm32f0xx_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_spi.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm32f0xx_spi.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm32f0xx_conf.h</FilePath>
-            </File>
-            <File>
               <FileName>hardware.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\hardware.c</FilePath>

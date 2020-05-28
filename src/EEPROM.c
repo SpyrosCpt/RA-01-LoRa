@@ -229,9 +229,7 @@ UI8 EE_ERASE_ALL(void)
 	while(MISO_READ() == 0) 
 	{
 		temp++;
-		
 		delayms(1);
-		
 		if(temp == 255) break;
 	}
 	
