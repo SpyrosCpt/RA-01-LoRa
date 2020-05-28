@@ -1,5 +1,8 @@
 #include "preprocessor.h"
 
+
+//This LoRa lib is based of sandeepmistry LoRa lib
+//Found at: https://github.com/sandeepmistry/arduino-LoRa
 UI16 _packetIndex=0;
 
 void TestLoRaReceiver(void)
@@ -171,7 +174,7 @@ UI8 LoRaSetup(void)
   if (version != 0x12) return 0;
 	
 	sleep(); //Set to sleep mode
-	Set_Frequency(915E6);
+	Set_Frequency(434E6);//Set_Frequency(915E6);
 	
 	  // set base addresses
   SPI_Write(REG_FIFO_TX_BASE_ADDR, 0);
@@ -191,6 +194,20 @@ UI8 LoRaSetup(void)
 	
 	PrintOLED(0, 0, 0, "TEMP: %d", SPI_Read(REG_MODEM_CONFIG_3));
 	return 1;
+}
+
+void AnotherSetup(void)
+{
+	// carrier frequency:           434.0 MHz
+  // bandwidth:                   125.0 kHz
+  // spreading factor:            9
+  // coding rate:                 7
+  // sync word:                   0x12
+  // output power:                17 dBm
+  // current limit:               100 mA
+  // preamble length:             8 symbols
+  // amplifier gain:              0 (automatic gain control)
+	
 }
 
 int LoRaAvailable(void)

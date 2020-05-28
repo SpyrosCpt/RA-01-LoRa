@@ -500,6 +500,14 @@ int main( void )
 			delaymms(2000);
 			LED0_CLR();
 		}
+		else if(PB1_READ() == 0) 
+		{
+			uint32_t clk;
+			//clk= SystemCoreClock();
+			//clk /= 1000000;
+			PrintfP("SYSCLK = %d Hz\r\n", clk);
+			delaymms(250);
+		}
 	  TestLoRaReceiver();
 	}
 }

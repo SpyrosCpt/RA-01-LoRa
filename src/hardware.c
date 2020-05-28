@@ -219,27 +219,27 @@ void ADC_Setup(void)
 	ADC1->CR |= ADC_CR_ADSTART;
 }
 
-static void SystemClock_Config()
+void SystemClock_Config(void)
 {
 	RCC->CR |= RCC_CR_HSION;																		//Turn on High Speed Internal clock (8MHz)
 	while((RCC->CR & RCC_CR_HSIRDY) != RCC_CR_HSIRDY) ; 				//Wait for HSI to be ready
 	
-	/*RCC->CR |= (RCC_CR_PLLON);																	//Enable PLL
+	RCC->CR |= (RCC_CR_PLLON);																	//Enable PLL
 	while((RCC->CR & RCC_CR_PLLRDY) != RCC_CR_PLLRDY) ;					//Wait for PLL to be ready
 	
 	RCC->CFGR = 0x00000000;                            				  //Clear the CFGR register
 		
 	RCC->CFGR |= RCC_CFGR_PLLSRC_HSI_DIV2;             			    //HSI is 8MHz so now it is 4MHz
 	
-	RCC->CFGR |= RCC_CFGR_PLLMUL6;                     				//4MHz x 12 = 48MHz*/
+	RCC->CFGR |= RCC_CFGR_PLLMUL12;                     				//4MHz x 12 = 48MHz*/
 	
 	RCC->CFGR |= RCC_CFGR_PPRE_DIV1;                    				//48MHz for the PCLK
 	
 	RCC->CFGR |= RCC_CFGR_HPRE_DIV1;														//48MHz for HCLK
 	
-//	RCC->CFGR |= RCC_CFGR_SW_PLL;																//Select PLL as system Clock
+	RCC->CFGR |= RCC_CFGR_SW_PLL;																//Select PLL as system Clock
 	
-//	while((RCC->CFGR & RCC_CFGR_SWS_PLL) != RCC_CFGR_SWS_PLL) ; //Wait for PLL-SYSCLK to become ready
+	while((RCC->CFGR & RCC_CFGR_SWS_PLL) != RCC_CFGR_SWS_PLL) ; //Wait for PLL-SYSCLK to become ready
 	
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;													//Enable the PORTA Peripheral Clock
 	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;													//Enable the PORTB Peripheral Clock
