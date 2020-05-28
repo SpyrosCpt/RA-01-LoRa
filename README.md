@@ -7,3 +7,4 @@
 - EEPROM working
 - Temp Sensor
 
+added some stuff here..
