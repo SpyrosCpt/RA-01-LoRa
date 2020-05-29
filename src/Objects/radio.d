@@ -16,3 +16,4 @@
 .\objects\radio.o: EEPROM.h
 .\objects\radio.o: oled.h
 .\objects\radio.o: com_io.h
+.\objects\radio.o: main.h

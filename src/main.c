@@ -190,13 +190,7 @@ int main( void )
 	
 	while(1)
 	{
-		if(PB0_READ() == 0)
-		{
-			LED0_SET();
-		  TestLoRaTransmitter();
-			delaymms(2000);
-			LED0_CLR();
-		}
+		if(PB0_READ() == 0) TestLoRaTransmitter();
 	  
 		TestLoRaReceiver();
 	}

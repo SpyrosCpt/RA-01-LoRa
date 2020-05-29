@@ -183,8 +183,8 @@ UI8 EE_WRITE(UI8 address, UI8 data)
 UI8 EE_READ(UI8 address)
 {
 	UI8 data = 0;
-	UI8 data2 = 0;
-	UI16 temp = 0;
+//	UI8 data2 = 0;
+//	UI16 temp = 0;
 	DF_CS_CLR();
 	DF_CS_SET(); 
 	

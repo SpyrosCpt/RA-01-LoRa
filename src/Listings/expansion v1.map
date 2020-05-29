@@ -29,7 +29,6 @@ Section Cross References
     main.o(i.main) refers to oled.o(i.OLED_Clr) for OLED_Clr
     main.o(i.main) refers to radio.o(i.LoRaSetup) for LoRaSetup
     main.o(i.main) refers to radio.o(i.TestLoRaTransmitter) for TestLoRaTransmitter
-    main.o(i.main) refers to main.o(i.delaymms) for delaymms
     main.o(i.main) refers to radio.o(i.TestLoRaReceiver) for TestLoRaReceiver
     radio.o(i.LoRaAvailable) refers to radio.o(i.SPI_Read) for SPI_Read
     radio.o(i.LoRaAvailable) refers to radio.o(.data) for _packetIndex
@@ -66,6 +65,7 @@ Section Cross References
     radio.o(i.TestLoRaTransmitter) refers to radio.o(i.beginPacket) for beginPacket
     radio.o(i.TestLoRaTransmitter) refers to radio.o(i.LoRaPrint) for LoRaPrint
     radio.o(i.TestLoRaTransmitter) refers to radio.o(i.endPacket) for endPacket
+    radio.o(i.TestLoRaTransmitter) refers to main.o(i.delaymms) for delaymms
     radio.o(i.beginPacket) refers to com_io.o(i.PrintfP) for PrintfP
     radio.o(i.beginPacket) refers to hardware.o(i.delayms) for delayms
     radio.o(i.beginPacket) refers to radio.o(i.idle) for idle
@@ -334,12 +334,12 @@ Removing Unused input sections from the image.
     Removing com_io.o(.revsh_text), (4 bytes).
     Removing com_io.o(i.ClrRX), (44 bytes).
     Removing com_io.o(i.ClrTX), (44 bytes).
-    Removing com_io.o(i.comms_getch), (64 bytes).
+    Removing com_io.o(i.comms_getch), (68 bytes).
     Removing com_io.o(i.is_Char), (28 bytes).
     Removing system_stm32f0xx.o(.rev16_text), (4 bytes).
     Removing system_stm32f0xx.o(.revsh_text), (4 bytes).
 
-35 unused section(s) (total 1918 bytes) removed from the image.
+35 unused section(s) (total 1922 bytes) removed from the image.
 
 ==============================================================================
 
@@ -492,57 +492,57 @@ Image Symbol Table
     i.BB_WriteData                           0x0800053a   Section        0  eeprom.o(i.BB_WriteData)
     i.EE_EWEN                                0x080005e8   Section        0  eeprom.o(i.EE_EWEN)
     i.EE_READ                                0x08000628   Section        0  eeprom.o(i.EE_READ)
-    i.LoRaAvailable                          0x08000678   Section        0  radio.o(i.LoRaAvailable)
-    i.LoRaPrint                              0x0800068c   Section        0  radio.o(i.LoRaPrint)
-    i.LoRaSetup                              0x08000734   Section        0  radio.o(i.LoRaSetup)
-    i.LoraRead                               0x080007e0   Section        0  radio.o(i.LoraRead)
-    i.OLEDInstructionWrite                   0x08000804   Section        0  oled.o(i.OLEDInstructionWrite)
-    i.OLED_Clr                               0x08000810   Section        0  oled.o(i.OLED_Clr)
-    i.OLED_Reset                             0x0800083c   Section        0  oled.o(i.OLED_Reset)
-    i.OLED_init                              0x08000874   Section        0  oled.o(i.OLED_init)
-    i.Ports_Setup                            0x08000920   Section        0  hardware.o(i.Ports_Setup)
-    i.PrintOLED                              0x08000b40   Section        0  com_io.o(i.PrintOLED)
-    i.PrintfP                                0x08000bec   Section        0  com_io.o(i.PrintfP)
-    i.PutChar                                0x08000ca0   Section        0  com_io.o(i.PutChar)
-    i.SPI_Read                               0x08000cec   Section        0  radio.o(i.SPI_Read)
-    i.SPI_Write                              0x08000d20   Section        0  radio.o(i.SPI_Write)
-    i.Set_Frequency                          0x08000d54   Section        0  radio.o(i.Set_Frequency)
-    i.Set_Mode                               0x08000da0   Section        0  hardware.o(i.Set_Mode)
-    i.Set_Pin                                0x08000db0   Section        0  hardware.o(i.Set_Pin)
-    i.Set_Pull                               0x08000e02   Section        0  hardware.o(i.Set_Pull)
-    i.Set_Speed                              0x08000e12   Section        0  hardware.o(i.Set_Speed)
-    i.Set_Type                               0x08000e22   Section        0  hardware.o(i.Set_Type)
-    i.Setup                                  0x08000e30   Section        0  hardware.o(i.Setup)
-    i.SysTick_Handler                        0x08000e50   Section        0  main.o(i.SysTick_Handler)
-    i.SysTick_Init                           0x08000e80   Section        0  hardware.o(i.SysTick_Init)
-    i.SystemClock_Config                     0x08000ecc   Section        0  hardware.o(i.SystemClock_Config)
-    i.SystemCoreClockUpdate                  0x08000f94   Section        0  system_stm32f0xx.o(i.SystemCoreClockUpdate)
-    i.SystemInit                             0x08001048   Section        0  system_stm32f0xx.o(i.SystemInit)
-    i.TIM14_IRQHandler                       0x080010bc   Section        0  main.o(i.TIM14_IRQHandler)
-    i.TIM17_IRQHandler                       0x080010e0   Section        0  main.o(i.TIM17_IRQHandler)
-    i.TIM17_Setup                            0x08001100   Section        0  hardware.o(i.TIM17_Setup)
-    i.TIM3_IRQHandler                        0x08001138   Section        0  main.o(i.TIM3_IRQHandler)
-    i.TIM3_Setup                             0x08001158   Section        0  hardware.o(i.TIM3_Setup)
-    i.TestLoRaReceiver                       0x08001194   Section        0  radio.o(i.TestLoRaReceiver)
-    i.TestLoRaTransmitter                    0x080011ec   Section        0  radio.o(i.TestLoRaTransmitter)
-    i.TransferBuffer                         0x0800124c   Section        0  oled.o(i.TransferBuffer)
-    i.UART_Setup                             0x080013d4   Section        0  hardware.o(i.UART_Setup)
-    i.USART1_IRQHandler                      0x080014a0   Section        0  com_io.o(i.USART1_IRQHandler)
-    i.__NVIC_EnableIRQ                       0x08001554   Section        0  hardware.o(i.__NVIC_EnableIRQ)
-    __NVIC_EnableIRQ                         0x08001555   Thumb Code    26  hardware.o(i.__NVIC_EnableIRQ)
-    i.__NVIC_SetPriority                     0x08001574   Section        0  hardware.o(i.__NVIC_SetPriority)
-    __NVIC_SetPriority                       0x08001575   Thumb Code   110  hardware.o(i.__NVIC_SetPriority)
-    i.beginPacket                            0x080015ec   Section        0  radio.o(i.beginPacket)
-    i.delaymms                               0x0800166c   Section        0  main.o(i.delaymms)
-    i.delayms                                0x08001684   Section        0  hardware.o(i.delayms)
-    i.delayus                                0x08001696   Section        0  hardware.o(i.delayus)
-    i.endPacket                              0x080016a8   Section        0  radio.o(i.endPacket)
-    i.explicitHeaderMode                     0x08001714   Section        0  radio.o(i.explicitHeaderMode)
-    i.idle                                   0x0800172c   Section        0  radio.o(i.idle)
-    i.int_asci_print                         0x08001738   Section        0  com_io.o(i.int_asci_print)
-    i.int_asci_print2                        0x080018a4   Section        0  com_io.o(i.int_asci_print2)
-    i.int_hexasci_print                      0x08001a24   Section        0  com_io.o(i.int_hexasci_print)
-    i.main                                   0x08001a74   Section        0  main.o(i.main)
+    i.LoRaAvailable                          0x08000674   Section        0  radio.o(i.LoRaAvailable)
+    i.LoRaPrint                              0x08000688   Section        0  radio.o(i.LoRaPrint)
+    i.LoRaSetup                              0x08000730   Section        0  radio.o(i.LoRaSetup)
+    i.LoraRead                               0x080007dc   Section        0  radio.o(i.LoraRead)
+    i.OLEDInstructionWrite                   0x08000800   Section        0  oled.o(i.OLEDInstructionWrite)
+    i.OLED_Clr                               0x0800080c   Section        0  oled.o(i.OLED_Clr)
+    i.OLED_Reset                             0x08000838   Section        0  oled.o(i.OLED_Reset)
+    i.OLED_init                              0x08000870   Section        0  oled.o(i.OLED_init)
+    i.Ports_Setup                            0x0800091c   Section        0  hardware.o(i.Ports_Setup)
+    i.PrintOLED                              0x08000b3c   Section        0  com_io.o(i.PrintOLED)
+    i.PrintfP                                0x08000be8   Section        0  com_io.o(i.PrintfP)
+    i.PutChar                                0x08000c9c   Section        0  com_io.o(i.PutChar)
+    i.SPI_Read                               0x08000ce8   Section        0  radio.o(i.SPI_Read)
+    i.SPI_Write                              0x08000d1c   Section        0  radio.o(i.SPI_Write)
+    i.Set_Frequency                          0x08000d50   Section        0  radio.o(i.Set_Frequency)
+    i.Set_Mode                               0x08000d9c   Section        0  hardware.o(i.Set_Mode)
+    i.Set_Pin                                0x08000dac   Section        0  hardware.o(i.Set_Pin)
+    i.Set_Pull                               0x08000dfe   Section        0  hardware.o(i.Set_Pull)
+    i.Set_Speed                              0x08000e0e   Section        0  hardware.o(i.Set_Speed)
+    i.Set_Type                               0x08000e1e   Section        0  hardware.o(i.Set_Type)
+    i.Setup                                  0x08000e2c   Section        0  hardware.o(i.Setup)
+    i.SysTick_Handler                        0x08000e4c   Section        0  main.o(i.SysTick_Handler)
+    i.SysTick_Init                           0x08000e7c   Section        0  hardware.o(i.SysTick_Init)
+    i.SystemClock_Config                     0x08000ec8   Section        0  hardware.o(i.SystemClock_Config)
+    i.SystemCoreClockUpdate                  0x08000f90   Section        0  system_stm32f0xx.o(i.SystemCoreClockUpdate)
+    i.SystemInit                             0x08001044   Section        0  system_stm32f0xx.o(i.SystemInit)
+    i.TIM14_IRQHandler                       0x080010b8   Section        0  main.o(i.TIM14_IRQHandler)
+    i.TIM17_IRQHandler                       0x080010dc   Section        0  main.o(i.TIM17_IRQHandler)
+    i.TIM17_Setup                            0x080010fc   Section        0  hardware.o(i.TIM17_Setup)
+    i.TIM3_IRQHandler                        0x08001134   Section        0  main.o(i.TIM3_IRQHandler)
+    i.TIM3_Setup                             0x08001154   Section        0  hardware.o(i.TIM3_Setup)
+    i.TestLoRaReceiver                       0x08001190   Section        0  radio.o(i.TestLoRaReceiver)
+    i.TestLoRaTransmitter                    0x080011e8   Section        0  radio.o(i.TestLoRaTransmitter)
+    i.TransferBuffer                         0x0800126c   Section        0  oled.o(i.TransferBuffer)
+    i.UART_Setup                             0x080013f4   Section        0  hardware.o(i.UART_Setup)
+    i.USART1_IRQHandler                      0x080014c0   Section        0  com_io.o(i.USART1_IRQHandler)
+    i.__NVIC_EnableIRQ                       0x08001570   Section        0  hardware.o(i.__NVIC_EnableIRQ)
+    __NVIC_EnableIRQ                         0x08001571   Thumb Code    26  hardware.o(i.__NVIC_EnableIRQ)
+    i.__NVIC_SetPriority                     0x08001590   Section        0  hardware.o(i.__NVIC_SetPriority)
+    __NVIC_SetPriority                       0x08001591   Thumb Code   110  hardware.o(i.__NVIC_SetPriority)
+    i.beginPacket                            0x08001608   Section        0  radio.o(i.beginPacket)
+    i.delaymms                               0x08001688   Section        0  main.o(i.delaymms)
+    i.delayms                                0x080016a0   Section        0  hardware.o(i.delayms)
+    i.delayus                                0x080016b2   Section        0  hardware.o(i.delayus)
+    i.endPacket                              0x080016c4   Section        0  radio.o(i.endPacket)
+    i.explicitHeaderMode                     0x08001734   Section        0  radio.o(i.explicitHeaderMode)
+    i.idle                                   0x0800174c   Section        0  radio.o(i.idle)
+    i.int_asci_print                         0x08001758   Section        0  com_io.o(i.int_asci_print)
+    i.int_asci_print2                        0x080018c4   Section        0  com_io.o(i.int_asci_print2)
+    i.int_hexasci_print                      0x08001a44   Section        0  com_io.o(i.int_hexasci_print)
+    i.main                                   0x08001a94   Section        0  main.o(i.main)
     i.parsePacket                            0x08001bb4   Section        0  radio.o(i.parsePacket)
     i.setColAddress                          0x08001c3c   Section        0  oled.o(i.setColAddress)
     i.setOCP                                 0x08001c56   Section        0  radio.o(i.setOCP)
@@ -703,54 +703,54 @@ Image Symbol Table
     __semihosting_library_function           0x080004a3   Thumb Code     0  indicate_semi.o(.text)
     BB_WriteData                             0x0800053b   Thumb Code   172  eeprom.o(i.BB_WriteData)
     EE_EWEN                                  0x080005e9   Thumb Code    58  eeprom.o(i.EE_EWEN)
-    EE_READ                                  0x08000629   Thumb Code    74  eeprom.o(i.EE_READ)
-    LoRaAvailable                            0x08000679   Thumb Code    16  radio.o(i.LoRaAvailable)
-    LoRaPrint                                0x0800068d   Thumb Code   104  radio.o(i.LoRaPrint)
-    LoRaSetup                                0x08000735   Thumb Code   150  radio.o(i.LoRaSetup)
-    LoraRead                                 0x080007e1   Thumb Code    32  radio.o(i.LoraRead)
-    OLEDInstructionWrite                     0x08000805   Thumb Code    12  oled.o(i.OLEDInstructionWrite)
-    OLED_Clr                                 0x08000811   Thumb Code    42  oled.o(i.OLED_Clr)
-    OLED_Reset                               0x0800083d   Thumb Code    52  oled.o(i.OLED_Reset)
-    OLED_init                                0x08000875   Thumb Code   170  oled.o(i.OLED_init)
-    Ports_Setup                              0x08000921   Thumb Code   532  hardware.o(i.Ports_Setup)
-    PrintOLED                                0x08000b41   Thumb Code   172  com_io.o(i.PrintOLED)
-    PrintfP                                  0x08000bed   Thumb Code   178  com_io.o(i.PrintfP)
-    PutChar                                  0x08000ca1   Thumb Code    58  com_io.o(i.PutChar)
-    SPI_Read                                 0x08000ced   Thumb Code    46  radio.o(i.SPI_Read)
-    SPI_Write                                0x08000d21   Thumb Code    48  radio.o(i.SPI_Write)
-    Set_Frequency                            0x08000d55   Thumb Code    72  radio.o(i.Set_Frequency)
-    Set_Mode                                 0x08000da1   Thumb Code    16  hardware.o(i.Set_Mode)
-    Set_Pin                                  0x08000db1   Thumb Code    82  hardware.o(i.Set_Pin)
-    Set_Pull                                 0x08000e03   Thumb Code    16  hardware.o(i.Set_Pull)
-    Set_Speed                                0x08000e13   Thumb Code    16  hardware.o(i.Set_Speed)
-    Set_Type                                 0x08000e23   Thumb Code    14  hardware.o(i.Set_Type)
-    Setup                                    0x08000e31   Thumb Code    32  hardware.o(i.Setup)
-    SysTick_Handler                          0x08000e51   Thumb Code    38  main.o(i.SysTick_Handler)
-    SysTick_Init                             0x08000e81   Thumb Code    60  hardware.o(i.SysTick_Init)
-    SystemClock_Config                       0x08000ecd   Thumb Code   194  hardware.o(i.SystemClock_Config)
-    SystemCoreClockUpdate                    0x08000f95   Thumb Code   164  system_stm32f0xx.o(i.SystemCoreClockUpdate)
-    SystemInit                               0x08001049   Thumb Code   104  system_stm32f0xx.o(i.SystemInit)
-    TIM14_IRQHandler                         0x080010bd   Thumb Code    26  main.o(i.TIM14_IRQHandler)
-    TIM17_IRQHandler                         0x080010e1   Thumb Code    26  main.o(i.TIM17_IRQHandler)
-    TIM17_Setup                              0x08001101   Thumb Code    46  hardware.o(i.TIM17_Setup)
-    TIM3_IRQHandler                          0x08001139   Thumb Code    26  main.o(i.TIM3_IRQHandler)
-    TIM3_Setup                               0x08001159   Thumb Code    46  hardware.o(i.TIM3_Setup)
-    TestLoRaReceiver                         0x08001195   Thumb Code    62  radio.o(i.TestLoRaReceiver)
-    TestLoRaTransmitter                      0x080011ed   Thumb Code    48  radio.o(i.TestLoRaTransmitter)
-    TransferBuffer                           0x0800124d   Thumb Code   388  oled.o(i.TransferBuffer)
-    UART_Setup                               0x080013d5   Thumb Code   190  hardware.o(i.UART_Setup)
-    USART1_IRQHandler                        0x080014a1   Thumb Code   150  com_io.o(i.USART1_IRQHandler)
-    beginPacket                              0x080015ed   Thumb Code    66  radio.o(i.beginPacket)
-    delaymms                                 0x0800166d   Thumb Code    20  main.o(i.delaymms)
-    delayms                                  0x08001685   Thumb Code    18  hardware.o(i.delayms)
-    delayus                                  0x08001697   Thumb Code    16  hardware.o(i.delayus)
-    endPacket                                0x080016a9   Thumb Code    72  radio.o(i.endPacket)
-    explicitHeaderMode                       0x08001715   Thumb Code    24  radio.o(i.explicitHeaderMode)
-    idle                                     0x0800172d   Thumb Code    12  radio.o(i.idle)
-    int_asci_print                           0x08001739   Thumb Code   350  com_io.o(i.int_asci_print)
-    int_asci_print2                          0x080018a5   Thumb Code   372  com_io.o(i.int_asci_print2)
-    int_hexasci_print                        0x08001a25   Thumb Code    78  com_io.o(i.int_hexasci_print)
-    main                                     0x08001a75   Thumb Code   276  main.o(i.main)
+    EE_READ                                  0x08000629   Thumb Code    70  eeprom.o(i.EE_READ)
+    LoRaAvailable                            0x08000675   Thumb Code    16  radio.o(i.LoRaAvailable)
+    LoRaPrint                                0x08000689   Thumb Code   104  radio.o(i.LoRaPrint)
+    LoRaSetup                                0x08000731   Thumb Code   150  radio.o(i.LoRaSetup)
+    LoraRead                                 0x080007dd   Thumb Code    32  radio.o(i.LoraRead)
+    OLEDInstructionWrite                     0x08000801   Thumb Code    12  oled.o(i.OLEDInstructionWrite)
+    OLED_Clr                                 0x0800080d   Thumb Code    42  oled.o(i.OLED_Clr)
+    OLED_Reset                               0x08000839   Thumb Code    52  oled.o(i.OLED_Reset)
+    OLED_init                                0x08000871   Thumb Code   170  oled.o(i.OLED_init)
+    Ports_Setup                              0x0800091d   Thumb Code   532  hardware.o(i.Ports_Setup)
+    PrintOLED                                0x08000b3d   Thumb Code   172  com_io.o(i.PrintOLED)
+    PrintfP                                  0x08000be9   Thumb Code   178  com_io.o(i.PrintfP)
+    PutChar                                  0x08000c9d   Thumb Code    60  com_io.o(i.PutChar)
+    SPI_Read                                 0x08000ce9   Thumb Code    46  radio.o(i.SPI_Read)
+    SPI_Write                                0x08000d1d   Thumb Code    48  radio.o(i.SPI_Write)
+    Set_Frequency                            0x08000d51   Thumb Code    72  radio.o(i.Set_Frequency)
+    Set_Mode                                 0x08000d9d   Thumb Code    16  hardware.o(i.Set_Mode)
+    Set_Pin                                  0x08000dad   Thumb Code    82  hardware.o(i.Set_Pin)
+    Set_Pull                                 0x08000dff   Thumb Code    16  hardware.o(i.Set_Pull)
+    Set_Speed                                0x08000e0f   Thumb Code    16  hardware.o(i.Set_Speed)
+    Set_Type                                 0x08000e1f   Thumb Code    14  hardware.o(i.Set_Type)
+    Setup                                    0x08000e2d   Thumb Code    32  hardware.o(i.Setup)
+    SysTick_Handler                          0x08000e4d   Thumb Code    38  main.o(i.SysTick_Handler)
+    SysTick_Init                             0x08000e7d   Thumb Code    60  hardware.o(i.SysTick_Init)
+    SystemClock_Config                       0x08000ec9   Thumb Code   194  hardware.o(i.SystemClock_Config)
+    SystemCoreClockUpdate                    0x08000f91   Thumb Code   164  system_stm32f0xx.o(i.SystemCoreClockUpdate)
+    SystemInit                               0x08001045   Thumb Code   104  system_stm32f0xx.o(i.SystemInit)
+    TIM14_IRQHandler                         0x080010b9   Thumb Code    26  main.o(i.TIM14_IRQHandler)
+    TIM17_IRQHandler                         0x080010dd   Thumb Code    26  main.o(i.TIM17_IRQHandler)
+    TIM17_Setup                              0x080010fd   Thumb Code    46  hardware.o(i.TIM17_Setup)
+    TIM3_IRQHandler                          0x08001135   Thumb Code    26  main.o(i.TIM3_IRQHandler)
+    TIM3_Setup                               0x08001155   Thumb Code    46  hardware.o(i.TIM3_Setup)
+    TestLoRaReceiver                         0x08001191   Thumb Code    62  radio.o(i.TestLoRaReceiver)
+    TestLoRaTransmitter                      0x080011e9   Thumb Code    80  radio.o(i.TestLoRaTransmitter)
+    TransferBuffer                           0x0800126d   Thumb Code   388  oled.o(i.TransferBuffer)
+    UART_Setup                               0x080013f5   Thumb Code   190  hardware.o(i.UART_Setup)
+    USART1_IRQHandler                        0x080014c1   Thumb Code   146  com_io.o(i.USART1_IRQHandler)
+    beginPacket                              0x08001609   Thumb Code    66  radio.o(i.beginPacket)
+    delaymms                                 0x08001689   Thumb Code    20  main.o(i.delaymms)
+    delayms                                  0x080016a1   Thumb Code    18  hardware.o(i.delayms)
+    delayus                                  0x080016b3   Thumb Code    16  hardware.o(i.delayus)
+    endPacket                                0x080016c5   Thumb Code    74  radio.o(i.endPacket)
+    explicitHeaderMode                       0x08001735   Thumb Code    24  radio.o(i.explicitHeaderMode)
+    idle                                     0x0800174d   Thumb Code    12  radio.o(i.idle)
+    int_asci_print                           0x08001759   Thumb Code   350  com_io.o(i.int_asci_print)
+    int_asci_print2                          0x080018c5   Thumb Code   372  com_io.o(i.int_asci_print2)
+    int_hexasci_print                        0x08001a45   Thumb Code    78  com_io.o(i.int_hexasci_print)
+    main                                     0x08001a95   Thumb Code   244  main.o(i.main)
     parsePacket                              0x08001bb5   Thumb Code   118  radio.o(i.parsePacket)
     setColAddress                            0x08001c3d   Thumb Code    26  oled.o(i.setColAddress)
     setOCP                                   0x08001c57   Thumb Code    58  radio.o(i.setOCP)
@@ -856,61 +856,61 @@ Memory Map of the image
     0x0800053a   0x0800053a   0x000000ac   Code   RO          409    i.BB_WriteData      eeprom.o
     0x080005e6   0x080005e6   0x00000002   PAD
     0x080005e8   0x080005e8   0x00000040   Code   RO          413    i.EE_EWEN           eeprom.o
-    0x08000628   0x08000628   0x00000050   Code   RO          414    i.EE_READ           eeprom.o
-    0x08000678   0x08000678   0x00000014   Code   RO          148    i.LoRaAvailable     radio.o
-    0x0800068c   0x0800068c   0x000000a8   Code   RO          149    i.LoRaPrint         radio.o
-    0x08000734   0x08000734   0x000000ac   Code   RO          150    i.LoRaSetup         radio.o
-    0x080007e0   0x080007e0   0x00000024   Code   RO          151    i.LoraRead          radio.o
-    0x08000804   0x08000804   0x0000000c   Code   RO          487    i.OLEDInstructionWrite  oled.o
-    0x08000810   0x08000810   0x0000002a   Code   RO          488    i.OLED_Clr          oled.o
-    0x0800083a   0x0800083a   0x00000002   PAD
-    0x0800083c   0x0800083c   0x00000038   Code   RO          489    i.OLED_Reset        oled.o
-    0x08000874   0x08000874   0x000000aa   Code   RO          490    i.OLED_init         oled.o
-    0x0800091e   0x0800091e   0x00000002   PAD
-    0x08000920   0x08000920   0x00000220   Code   RO          285    i.Ports_Setup       hardware.o
-    0x08000b40   0x08000b40   0x000000ac   Code   RO          581    i.PrintOLED         com_io.o
-    0x08000bec   0x08000bec   0x000000b2   Code   RO          582    i.PrintfP           com_io.o
-    0x08000c9e   0x08000c9e   0x00000002   PAD
-    0x08000ca0   0x08000ca0   0x0000004c   Code   RO          583    i.PutChar           com_io.o
-    0x08000cec   0x08000cec   0x00000034   Code   RO          152    i.SPI_Read          radio.o
-    0x08000d20   0x08000d20   0x00000034   Code   RO          153    i.SPI_Write         radio.o
-    0x08000d54   0x08000d54   0x0000004c   Code   RO          155    i.Set_Frequency     radio.o
-    0x08000da0   0x08000da0   0x00000010   Code   RO          286    i.Set_Mode          hardware.o
-    0x08000db0   0x08000db0   0x00000052   Code   RO          287    i.Set_Pin           hardware.o
-    0x08000e02   0x08000e02   0x00000010   Code   RO          288    i.Set_Pull          hardware.o
-    0x08000e12   0x08000e12   0x00000010   Code   RO          289    i.Set_Speed         hardware.o
-    0x08000e22   0x08000e22   0x0000000e   Code   RO          290    i.Set_Type          hardware.o
-    0x08000e30   0x08000e30   0x00000020   Code   RO          291    i.Setup             hardware.o
-    0x08000e50   0x08000e50   0x00000030   Code   RO            4    i.SysTick_Handler   main.o
-    0x08000e80   0x08000e80   0x0000004c   Code   RO          292    i.SysTick_Init      hardware.o
-    0x08000ecc   0x08000ecc   0x000000c8   Code   RO          293    i.SystemClock_Config  hardware.o
-    0x08000f94   0x08000f94   0x000000b4   Code   RO          680    i.SystemCoreClockUpdate  system_stm32f0xx.o
-    0x08001048   0x08001048   0x00000074   Code   RO          681    i.SystemInit        system_stm32f0xx.o
-    0x080010bc   0x080010bc   0x00000024   Code   RO            5    i.TIM14_IRQHandler  main.o
-    0x080010e0   0x080010e0   0x00000020   Code   RO            6    i.TIM17_IRQHandler  main.o
-    0x08001100   0x08001100   0x00000038   Code   RO          295    i.TIM17_Setup       hardware.o
-    0x08001138   0x08001138   0x00000020   Code   RO            7    i.TIM3_IRQHandler   main.o
-    0x08001158   0x08001158   0x0000003c   Code   RO          296    i.TIM3_Setup        hardware.o
-    0x08001194   0x08001194   0x00000058   Code   RO          156    i.TestLoRaReceiver  radio.o
-    0x080011ec   0x080011ec   0x00000060   Code   RO          157    i.TestLoRaTransmitter  radio.o
-    0x0800124c   0x0800124c   0x00000188   Code   RO          491    i.TransferBuffer    oled.o
-    0x080013d4   0x080013d4   0x000000cc   Code   RO          297    i.UART_Setup        hardware.o
-    0x080014a0   0x080014a0   0x000000b4   Code   RO          584    i.USART1_IRQHandler  com_io.o
-    0x08001554   0x08001554   0x00000020   Code   RO          298    i.__NVIC_EnableIRQ  hardware.o
-    0x08001574   0x08001574   0x00000078   Code   RO          299    i.__NVIC_SetPriority  hardware.o
-    0x080015ec   0x080015ec   0x00000080   Code   RO          158    i.beginPacket       radio.o
-    0x0800166c   0x0800166c   0x00000018   Code   RO           10    i.delaymms          main.o
-    0x08001684   0x08001684   0x00000012   Code   RO          300    i.delayms           hardware.o
-    0x08001696   0x08001696   0x00000010   Code   RO          301    i.delayus           hardware.o
-    0x080016a6   0x080016a6   0x00000002   PAD
-    0x080016a8   0x080016a8   0x0000006c   Code   RO          159    i.endPacket         radio.o
-    0x08001714   0x08001714   0x00000018   Code   RO          160    i.explicitHeaderMode  radio.o
-    0x0800172c   0x0800172c   0x0000000c   Code   RO          161    i.idle              radio.o
-    0x08001738   0x08001738   0x0000016c   Code   RO          586    i.int_asci_print    com_io.o
-    0x080018a4   0x080018a4   0x00000180   Code   RO          587    i.int_asci_print2   com_io.o
-    0x08001a24   0x08001a24   0x0000004e   Code   RO          588    i.int_hexasci_print  com_io.o
-    0x08001a72   0x08001a72   0x00000002   PAD
-    0x08001a74   0x08001a74   0x00000140   Code   RO           13    i.main              main.o
+    0x08000628   0x08000628   0x0000004c   Code   RO          414    i.EE_READ           eeprom.o
+    0x08000674   0x08000674   0x00000014   Code   RO          148    i.LoRaAvailable     radio.o
+    0x08000688   0x08000688   0x000000a8   Code   RO          149    i.LoRaPrint         radio.o
+    0x08000730   0x08000730   0x000000ac   Code   RO          150    i.LoRaSetup         radio.o
+    0x080007dc   0x080007dc   0x00000024   Code   RO          151    i.LoraRead          radio.o
+    0x08000800   0x08000800   0x0000000c   Code   RO          487    i.OLEDInstructionWrite  oled.o
+    0x0800080c   0x0800080c   0x0000002a   Code   RO          488    i.OLED_Clr          oled.o
+    0x08000836   0x08000836   0x00000002   PAD
+    0x08000838   0x08000838   0x00000038   Code   RO          489    i.OLED_Reset        oled.o
+    0x08000870   0x08000870   0x000000aa   Code   RO          490    i.OLED_init         oled.o
+    0x0800091a   0x0800091a   0x00000002   PAD
+    0x0800091c   0x0800091c   0x00000220   Code   RO          285    i.Ports_Setup       hardware.o
+    0x08000b3c   0x08000b3c   0x000000ac   Code   RO          581    i.PrintOLED         com_io.o
+    0x08000be8   0x08000be8   0x000000b2   Code   RO          582    i.PrintfP           com_io.o
+    0x08000c9a   0x08000c9a   0x00000002   PAD
+    0x08000c9c   0x08000c9c   0x0000004c   Code   RO          583    i.PutChar           com_io.o
+    0x08000ce8   0x08000ce8   0x00000034   Code   RO          152    i.SPI_Read          radio.o
+    0x08000d1c   0x08000d1c   0x00000034   Code   RO          153    i.SPI_Write         radio.o
+    0x08000d50   0x08000d50   0x0000004c   Code   RO          155    i.Set_Frequency     radio.o
+    0x08000d9c   0x08000d9c   0x00000010   Code   RO          286    i.Set_Mode          hardware.o
+    0x08000dac   0x08000dac   0x00000052   Code   RO          287    i.Set_Pin           hardware.o
+    0x08000dfe   0x08000dfe   0x00000010   Code   RO          288    i.Set_Pull          hardware.o
+    0x08000e0e   0x08000e0e   0x00000010   Code   RO          289    i.Set_Speed         hardware.o
+    0x08000e1e   0x08000e1e   0x0000000e   Code   RO          290    i.Set_Type          hardware.o
+    0x08000e2c   0x08000e2c   0x00000020   Code   RO          291    i.Setup             hardware.o
+    0x08000e4c   0x08000e4c   0x00000030   Code   RO            4    i.SysTick_Handler   main.o
+    0x08000e7c   0x08000e7c   0x0000004c   Code   RO          292    i.SysTick_Init      hardware.o
+    0x08000ec8   0x08000ec8   0x000000c8   Code   RO          293    i.SystemClock_Config  hardware.o
+    0x08000f90   0x08000f90   0x000000b4   Code   RO          680    i.SystemCoreClockUpdate  system_stm32f0xx.o
+    0x08001044   0x08001044   0x00000074   Code   RO          681    i.SystemInit        system_stm32f0xx.o
+    0x080010b8   0x080010b8   0x00000024   Code   RO            5    i.TIM14_IRQHandler  main.o
+    0x080010dc   0x080010dc   0x00000020   Code   RO            6    i.TIM17_IRQHandler  main.o
+    0x080010fc   0x080010fc   0x00000038   Code   RO          295    i.TIM17_Setup       hardware.o
+    0x08001134   0x08001134   0x00000020   Code   RO            7    i.TIM3_IRQHandler   main.o
+    0x08001154   0x08001154   0x0000003c   Code   RO          296    i.TIM3_Setup        hardware.o
+    0x08001190   0x08001190   0x00000058   Code   RO          156    i.TestLoRaReceiver  radio.o
+    0x080011e8   0x080011e8   0x00000084   Code   RO          157    i.TestLoRaTransmitter  radio.o
+    0x0800126c   0x0800126c   0x00000188   Code   RO          491    i.TransferBuffer    oled.o
+    0x080013f4   0x080013f4   0x000000cc   Code   RO          297    i.UART_Setup        hardware.o
+    0x080014c0   0x080014c0   0x000000b0   Code   RO          584    i.USART1_IRQHandler  com_io.o
+    0x08001570   0x08001570   0x00000020   Code   RO          298    i.__NVIC_EnableIRQ  hardware.o
+    0x08001590   0x08001590   0x00000078   Code   RO          299    i.__NVIC_SetPriority  hardware.o
+    0x08001608   0x08001608   0x00000080   Code   RO          158    i.beginPacket       radio.o
+    0x08001688   0x08001688   0x00000018   Code   RO           10    i.delaymms          main.o
+    0x080016a0   0x080016a0   0x00000012   Code   RO          300    i.delayms           hardware.o
+    0x080016b2   0x080016b2   0x00000010   Code   RO          301    i.delayus           hardware.o
+    0x080016c2   0x080016c2   0x00000002   PAD
+    0x080016c4   0x080016c4   0x00000070   Code   RO          159    i.endPacket         radio.o
+    0x08001734   0x08001734   0x00000018   Code   RO          160    i.explicitHeaderMode  radio.o
+    0x0800174c   0x0800174c   0x0000000c   Code   RO          161    i.idle              radio.o
+    0x08001758   0x08001758   0x0000016c   Code   RO          586    i.int_asci_print    com_io.o
+    0x080018c4   0x080018c4   0x00000180   Code   RO          587    i.int_asci_print2   com_io.o
+    0x08001a44   0x08001a44   0x0000004e   Code   RO          588    i.int_hexasci_print  com_io.o
+    0x08001a92   0x08001a92   0x00000002   PAD
+    0x08001a94   0x08001a94   0x00000120   Code   RO           13    i.main              main.o
     0x08001bb4   0x08001bb4   0x00000088   Code   RO          162    i.parsePacket       radio.o
     0x08001c3c   0x08001c3c   0x0000001a   Code   RO          492    i.setColAddress     oled.o
     0x08001c56   0x08001c56   0x0000003a   Code   RO          163    i.setOCP            radio.o
@@ -953,17 +953,17 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1432         74          0          8        256       6993   com_io.o
-       468         12          0          0          0       2241   eeprom.o
+      1428         72          0          8        256       6981   com_io.o
+       464         12          0          0          0       2205   eeprom.o
       1502         88          0          0          0      16181   hardware.o
-       492         80          0          8          0     199720   main.o
-       984         36       3456          0          0       7127   oled.o
-      1272        298          0          2          0       8796   radio.o
+       460         80          0          8          0     199720   main.o
+       984         36       3456          0          0       7143   oled.o
+      1312        304          0          2          0       8812   radio.o
         56         26        184          0       1536        660   startup_stm32f030xc.o
        296         28         24          4          0       2063   system_stm32f0xx.o
 
     ----------------------------------------------------------------------
-      6514        642       3696         24       1792     243781   Object Totals
+      6514        646       3696         24       1792     243765   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         12          0          0          2          0          0   (incl. Padding)
 
@@ -1015,9 +1015,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      7460        664       3696         24       1888     241709   Grand Totals
-      7460        664       3696         24       1888     241709   ELF Image Totals
-      7460        664       3696         24          0          0   ROM Totals
+      7460        668       3696         24       1888     241693   Grand Totals
+      7460        668       3696         24       1888     241693   ELF Image Totals
+      7460        668       3696         24          0          0   ROM Totals
 
 ==============================================================================
 

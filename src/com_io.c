@@ -59,6 +59,7 @@ UI8 PutChar(UI8 data)
 {	
 	UI16 Temp16;
 	
+	__disable_irq();
 	Temp16=USB_TX_end;
 	Temp16++;
 	if(Temp16>=USB_TX_BUFFSIZE) Temp16=0;
@@ -71,7 +72,8 @@ UI8 PutChar(UI8 data)
 				__enable_irq();
 				return(1);                  // return success
 	}
-	else return 0;
+	
+	return 0;
 }
 
 
@@ -102,17 +104,23 @@ UI8 is_Char(void)
 UI8 comms_getch(void)
 {
     UI8     temp;
-	              
+    
+		__disable_irq();
 		if(USB_RX_start == USB_RX_end)
-					return(0);
+		{
+				__enable_irq();
+				return(0);
+		}
 		else
 		{
 				temp = USB_RX_Buffer[USB_RX_start];
 				USB_RX_start++;
 				if(USB_RX_start>=USB_RX_BUFFSIZE )USB_RX_start=0;
+				__enable_irq();
 				return(temp);
 		}
-    return(0);
+		
+//    return(0);
 }
 
 void USART1_IRQHandler( void )
@@ -125,14 +133,13 @@ void USART1_IRQHandler( void )
 		
 		k=USB_RX_end;
 		k++;
-		if(k>=USB_RX_BUFFSIZE) k=0; 
+		k&=( USB_RX_BUFFSIZE - 1 ); // wrap
 
 		if( k!=USB_RX_start )
 		{
 			USB_RX_Buffer[USB_RX_end] = temp;   // dump UI8acter in buffer
-
 			USB_RX_end++;
-			if(USB_RX_end>= USB_RX_BUFFSIZE ) USB_RX_end=0; // wrap pointer...
+			USB_RX_end&=( USB_RX_BUFFSIZE - 1 ); // wrap pointer...
 		}
 	}
 	if( ( USART1->ISR & USART_ISR_TXE) == USART_ISR_TXE)
@@ -148,7 +155,6 @@ void USART1_IRQHandler( void )
     	{
 	        // there is nothing, so turn the damn interrupt off otherwise I never get time for
 	        // anything else	        
-	        //USB.CTRLA &= ~(3<<USART_DREINTLVL_gp); 
 					USART1->CR1 &= ~USART_CR1_TXEIE;				
     	}
 	}
@@ -164,7 +170,7 @@ UI8 PrintfP(const UI8 *input, ...)    // works like printf
 
     va_start(argptr, input);
 
-    for (count = 0;count < strlen(input); count++)
+    for (count = 0;count < strlen((const char *)input); count++)
     {
         if (input[count] == 0x0A)
         {
@@ -175,13 +181,13 @@ UI8 PrintfP(const UI8 *input, ...)    // works like printf
         {
             if (input[count + 1] == 'd')
             {
-                tempt = va_arg(argptr, UI16);
+                tempt = va_arg(argptr, int);
                 int_asci_print(tempt);
                 count++;
             }
             else if (input[count + 1] == 'x')
             {
-                tempt = va_arg(argptr, UI16);
+                tempt = va_arg(argptr, int);
                 int_hexasci_print(tempt);
                 count++;
             }
@@ -405,7 +411,7 @@ UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...)
 	
     va_start(argptr, input);
 	
-	index = strlen(input); 
+	index = strlen((const char *)input); 
   
     for (count = 0; count < index; count++)
     {
@@ -414,7 +420,7 @@ UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...)
 		    
             if (input[count + 1] == 'd')
             {
-			    tempt = va_arg(argptr, UI16);
+			    tempt = va_arg(argptr, int);
                 count = int_asci_print2(charie, count, tempt);
             }
 			else
@@ -434,10 +440,8 @@ UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...)
 	}
 	TransferBuffer(charie, count, row, col, underline);
 	
-    va_end(argptr);
-    if (success < count)
-       { return(0); }
-    else
-       { return(1); }	
+	va_end(argptr);
+	if (success < count) return(0); 
+	else return(1); 
 }
 

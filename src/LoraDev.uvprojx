@@ -442,6 +442,11 @@
               <FileType>5</FileType>
               <FilePath>.\com_io.h</FilePath>
             </File>
+            <File>
+              <FileName>main.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\main.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

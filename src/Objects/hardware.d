@@ -16,3 +16,4 @@
 .\objects\hardware.o: EEPROM.h
 .\objects\hardware.o: oled.h
 .\objects\hardware.o: com_io.h
+.\objects\hardware.o: main.h

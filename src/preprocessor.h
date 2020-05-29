@@ -33,3 +33,4 @@ typedef signed int      SI32;
 #include "EEPROM.h"
 #include "oled.h"
 #include "com_io.h"
+#include "main.h"

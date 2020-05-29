@@ -21,21 +21,24 @@ void TestLoRaReceiver(void)
 
 void TestLoRaTransmitter(void)
 {
+	LED0_SET();
 	PrintfP("\nSending packet: ");
 	delayms(10);
-  PrintOLED(0, 0, 0, "Sendd Pkt!");
+  PrintOLED(0, 0, 0, "Send Pkt!");
 	// send packet
   beginPacket();
   LoRaPrint("hello ");
   LoRaPrint("world");
   endPacket();
+	LED0_CLR();
+	delaymms(2000);
 }
 void LoRaPrint(UI8 *buffer)
 {
 	UI8 size;
 	UI16 currentLength;
 	
-	size = strlen(buffer);
+	size = strlen((const char *)buffer);
 	PrintfP("\nString size = %d", size);
 	delayms(10);
 	currentLength = SPI_Read(REG_PAYLOAD_LENGTH);
@@ -71,6 +74,8 @@ UI16 endPacket(void)
 	PrintfP("\nClear IRQ\n");
 	delayms(10);
 	SPI_Write(REG_IRQ_FLAGS, IRQ_TX_DONE_MASK);
+	
+	return 1;
 }
 
 void SPI_Write(UI8 address, UI8 data)

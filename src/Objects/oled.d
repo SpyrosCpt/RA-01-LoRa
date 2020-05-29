@@ -16,3 +16,4 @@
 .\objects\oled.o: EEPROM.h
 .\objects\oled.o: oled.h
 .\objects\oled.o: com_io.h
+.\objects\oled.o: main.h
