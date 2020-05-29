@@ -28,6 +28,10 @@ typedef signed int      SI32;
 
 #define DEBUG 					0x01
 
+#define VREFINT_CAL_ADDR                0x1FFFF7BA  /* datasheet p. 19 */
+#define VREFINT_CAL ((uint16_t*) VREFINT_CAL_ADDR)
+
+
 #include "hardware.h"
 #include "radio.h"
 #include "EEPROM.h"

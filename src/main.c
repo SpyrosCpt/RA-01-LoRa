@@ -1,5 +1,14 @@
 #include "preprocessor.h"
 
+#define ADC_TEMPERATURE_CH ADC_CHSELR_CHSEL4
+
+UI32 adcraw = 0;
+UI32 Vdd = 0;
+UI16 VddCal = 0;
+UI32 TempVdd = 0;
+__IO UI16 adcval = 0;
+UI16 TemperatureTimer = 0;
+
 /****************************************/
 /***************PROTOTYPES***************/
 /****************************************/
@@ -39,7 +48,6 @@ void delayuus(int us)
 void delaymms(int ms)
 {
 	MILLISECS = ms*100;
-	
 	while(MILLISECS) ;
 }
 
@@ -49,23 +57,7 @@ void delaymms(int ms)
 /****************************************/
 
 
-void Setup_ISR( void )
-{
-	// Enable SYSCFG clock
-	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 
-	SYSCFG->EXTICR[2] = 0x01<<12;//|=   SYSCFG_EXTICR2_EXTI5_PB;
-
-	// Enable EXTI line 3
-	EXTI->IMR |= EXTI_IMR_IM11;
-
-	// Disable Rising / Enable Falling trigger
-	EXTI->RTSR &=  ~EXTI_RTSR_RT11;
-	EXTI->FTSR |=  EXTI_FTSR_FT11;
-	
-	NVIC_SetPriority( EXTI4_15_IRQn, 0 );
-	NVIC_EnableIRQ( EXTI4_15_IRQn ); // Enable interrupt from TIM3 (NVIC level)
-}
 
 
 /**
@@ -79,6 +71,8 @@ void TIM3_IRQHandler( void )
 	if( TIM3->SR & TIM_SR_UIF ) 					/* If UIF flag is set */
   {
 		TIM3->SR &= ~TIM_SR_UIF; 					/* Clear UIF flag */
+		
+		if(TemperatureTimer) TemperatureTimer--;
   }
 }
 
@@ -142,27 +136,135 @@ UI8 readInputs(void)
 	
 	return temp;
 }
+void EnableADC(void)
+{
+	/* (1) Clear the ADRDY bit */
+	/* (2) Enable the ADC */
+	/* (3) Wait until ADC ready */
+	ADC1->ISR |= ADC_ISR_ADRDY; /* (1) */
+	ADC1->CR |= ADC_CR_ADEN; /* (2) */
+	if ((ADC1->CFGR1 & ADC_CFGR1_AUTOFF) == 0)
+	{
+		while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* (3) */
+		{
+		/* For robust implementation, add here time-out management */
+		}
+	}
+}
+
+/**
+	* @brief 	This disables the ADC
+	* @param 	none		  
+	* @retval none
+	*/
+/*MOVE*/
+void DisableADC(void)
+{
+	/* (1) Ensure that no conversion on going */
+	/* (2) Stop any ongoing conversion */
+	/* (3) Wait until ADSTP is reset by hardware i.e. conversion is stopped */
+	/* (4) Disable the ADC */
+	/* (5) Wait until the ADC is fully disabled */
+	if ((ADC1->CR & ADC_CR_ADSTART) != 0) /* (1) */
+	{
+		ADC1->CR |= ADC_CR_ADSTP; /* (2) */
+	}
+	while ((ADC1->CR & ADC_CR_ADSTP) != 0) /* (3) */
+	{
+	/* For robust implementation, add here time-out management */
+	}
+	ADC1->CR |= ADC_CR_ADDIS; /* (4) */
+	while ((ADC1->CR & ADC_CR_ADEN) != 0) /* (5) */
+	{
+	/* For robust implementation, add here time-out management */
+	}
+}
+
+UI16 Get_ADC_Val( void )
+{ 
+	UI8 samples = 0;                					    /* Each sample takes 1uS so we should get this over and done with in about 100uS */
+	UI8 NumSamples = 60;
+	UI32 adcreg=0;
+	UI16 Val16;
+	
+	ADC1->CR |= ADC_CR_ADSTART;                 /* Start conversion */
+	for( samples = 0; samples < NumSamples; samples++ )   /* Take 5 samples and add them together */
+	{
+		
+		while( ( ADC1->ISR & ADC_ISR_EOC ) == 0 );  /* Wait for conversion to finish */
+		
+		adcreg += ADC1->DR;								        /* Get value from ADC data reg */
+	}
+	adcreg/=NumSamples;											    /* Get an average off all the samples */	
+	Val16=adcreg;
+		
+	return Val16;
+
+}
+
+void GetVddVal(void)
+{
+	adcraw = 0;
+
+	DisableADC();
+	ADC1->CHSELR = 0x00000000;
+	ADC1->CHSELR |= ADC_CHSELR_CHSEL17;                         /* Set ADC channel to Vref (CH17) */
+	EnableADC();
+	
+	adcraw = Get_ADC_Val();
+
+	Vdd = 3300UL * (*VREFINT_CAL) / adcraw;
+	
+	PrintfP("\nVdd = %d", Vdd);
+	PrintfP("\nADC = %d", adcraw);
+
+	if(Vdd>3500) Vdd=3300; //sanity
+	if(Vdd<3000) Vdd=3300;
+	
+}
+
+
+UI16 GetAnalogVal(UI8 ch)
+{
+	adcval = 0;
+
+	DisableADC();
+	
+	ADC1->CHSELR = 0x00000000;
+	ADC1->CHSELR |= ch;                         /* Set ADC channel to Vref (CH17) */
+
+	EnableADC();
+	
+	adcval = Get_ADC_Val();
+
+	return adcval;
+}
 
 void getTemp(void)
 {
 	UI32 temp = 0;
 	float temp2 = 0;
 	
-	while ((ADC1->ISR & ADC_ISR_EOC) != ADC_ISR_EOC);	
-	temp = ADC1->DR;
-	temp2 = temp*0.088;//(temp*10) / 4095;
-	temp2 -= 32;
-	temp2 *= 0.55555;
-	//temp2 *= 34;
-	
-	PrintOLED(0, 84, 0, "%dC", (UI16)temp2);
+	if(TemperatureTimer == 0)
+	{
+		temp = GetAnalogVal(ADC_TEMPERATURE_CH);
+		temp2 = temp*0.088;
+		temp2 -= 32;
+		temp2 *= 0.55555;
+		
+		PrintOLED(0, 84, 0, "%dC", (UI16)temp2);
+		
+		TemperatureTimer = 2000;
+	}
 }
 
 
 int main( void )
 {	
 	Setup();                          																			 /* Setup the hardware and peripherals */  
-
+	
+	GetVddVal();
+	
 	OLED_RST_SET();
 	OLED_DC_SET();
 	LORA_CS_SET();
@@ -192,6 +294,7 @@ int main( void )
 	{
 		if(PB0_READ() == 0) TestLoRaTransmitter();
 	  
+		getTemp();
 		TestLoRaReceiver();
 	}
 }
