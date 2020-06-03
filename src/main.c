@@ -9,6 +9,7 @@ UI32 TempVdd = 0;
 __IO UI16 adcval = 0;
 UI16 TemperatureTimer = 0;
 
+
 /****************************************/
 /***************PROTOTYPES***************/
 /****************************************/
@@ -252,9 +253,10 @@ void getTemp(void)
 		temp2 -= 32;
 		temp2 *= 0.55555;
 		
-		PrintOLED(0, 84, 0, "%dC", (UI16)temp2);
 		
-		TemperatureTimer = 2000;
+		PrintOLED(0, 0, 0, "TEMP = %dC", (UI16)temp2);
+		//TransferBuffer("HELLOWORLD", 10, 63, 2, 0);
+		TemperatureTimer = 500;
 	}
 }
 
@@ -284,6 +286,7 @@ int main( void )
 	LORA_CS_SET();
 
 	OLED_init();
+	
 	setColAddress(0,127);
 	setPageAddress(0,7);
 	OLED_Clr(0);
@@ -295,7 +298,7 @@ int main( void )
 		if(PB0_READ() == 0) TestLoRaTransmitter();
 	  
 		getTemp();
-		TestLoRaReceiver();
+		//TestLoRaReceiver();
 	}
 }
 

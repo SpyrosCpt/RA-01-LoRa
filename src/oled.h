@@ -13,8 +13,15 @@ extern void ssd1306_WriteCommand(UI8 byte);
 extern void setPageAddress(UI8 x, UI8 y);
 extern void setColAddress(UI8 x, UI8 y);
 extern void OLED_Clr(UI8 col);
-extern void ssd1306_WriteData1(UI8 arr[], UI8 bytesToWrite);
+extern void ssd1306_WriteData1(UI8 arr[], UI16 bytesToWrite);
 extern void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underline);
+
+
+//FONT STUFF
+#define FONT_HEIGHT		3
+#define FONT_WIDTH		12
+#define FONT_SIZE			36
+#define CHARS_IN_ROW	(128/FONT_WIDTH)
 
 // commands SSD1306 controller
 #define LCD_SET_COL_HI			0x10

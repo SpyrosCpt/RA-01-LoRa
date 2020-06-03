@@ -259,7 +259,7 @@ void Setup( void )
 	TIM3_Setup();
 	SysTick_Init();
 	if(DEBUG)UART_Setup(115200);
-	//ADC_Setup();
+	ADC_Setup();
 	
 
 }

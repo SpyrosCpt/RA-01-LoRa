@@ -24,14 +24,14 @@ void TestLoRaTransmitter(void)
 	LED0_SET();
 	PrintfP("\nSending packet: ");
 	delayms(10);
-  PrintOLED(0, 0, 0, "Send Pkt!");
+ // PrintOLED(0, 0, 0, "SEND PKT!");
 	// send packet
   beginPacket();
   LoRaPrint("hello ");
   LoRaPrint("world");
   endPacket();
+	delaymms(500);
 	LED0_CLR();
-	delaymms(2000);
 }
 void LoRaPrint(UI8 *buffer)
 {
@@ -197,7 +197,7 @@ UI8 LoRaSetup(void)
   // put in standby mode
   idle();
 	
-	PrintOLED(0, 0, 0, "TEMP: %d", SPI_Read(REG_MODEM_CONFIG_3));
+//	PrintOLED(0, 0, 0, "TEMP: %d", SPI_Read(REG_MODEM_CONFIG_3));
 	return 1;
 }
 
@@ -244,7 +244,7 @@ int parsePacket(void)
 
   if ((irqFlags & IRQ_RX_DONE_MASK) && (irqFlags & IRQ_PAYLOAD_CRC_ERROR_MASK) == 0) 
 	{
-		PrintOLED(0, 4, 0, "Somethng!");
+		//PrintOLED(0, 0, 0, "Somethng!");
     // received a packet
     _packetIndex = 0;
 

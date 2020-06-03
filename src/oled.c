@@ -339,7 +339,7 @@ void ssd1306_WriteData(UI8 byte)
 	OLED_CS_SET(); //CS Unselect OLED
 }
 
-void ssd1306_WriteData1(UI8 arr[], UI8 bytesToWrite)//UI8 byte)
+void ssd1306_WriteData1(UI8 arr[], UI16 bytesToWrite)//UI8 byte)
 {
 	UI16 i,j;
 	
@@ -353,25 +353,102 @@ void ssd1306_WriteData1(UI8 arr[], UI8 bytesToWrite)//UI8 byte)
 	for(i=0;i<100;i++) ;
 	OLED_CS_SET(); //CS Unselect OLED
 }
+
+
+void TestFontStuff(UI8 charArray[], UI8 size, UI8 x, UI8 y)
+{
+	UI16 i=0, j=0;
+  UI16 temp=(128*FONT_SIZE); 						 	 	  								   //Temp variable to store a single character	 	 	  								                                                                                                                                            
+	UI8 AllChars[size*FONT_SIZE];												   	   //Array 1 transfered to OLED
+	UI8 arrToSend[128*3];
+	UI8 whereAmI_char = 0;
+	UI8 spaceNeeded=0;
+	UI8 spaceAvailable=0;
+	UI8 charsToPrint = 0;
+	UI8 fontArrOffset = 4;
+	UI8 fontJumpArrOffset = 4;
+	
+	//lets calculate the size of the string to see if it will fit on a line
+	/*for(i = 0; i < size; i++) 
+	{
+		spaceNeeded += (((charArray[i] - 32)*4) + 7);
+	}
+	
+	spaceAvailable = (128 - x);
+	
+	if(spaceNeeded < spaceAvailable) charsToPrint = size;
+	else charsToPrint = (spaceAvailable/FONT_WIDTH);*/
+	
+	//just grab the bytes and start shoving them into the array, 
+	//rememeber to keep track of them so we know how many we have, stop when we reach 128
+}
+
+
 void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underline)
+{
+  UI16 i=0, j=0;
+  UI16 temp=(128*FONT_SIZE); 						 	 	  								   //Temp variable to store a single character	 	 	  								                                                                                                                                            
+	UI8 AllChars[size*FONT_SIZE];												   	   //Array 1 transfered to OLED
+	UI8 arrToSend[128*3];
+	UI8 whereAmI_char = 0;
+	UI8 spaceNeeded=0;
+	UI8 spaceAvailable=0;
+	UI8 charsToPrint = 0;
+	if(size > CHARS_IN_ROW) size = CHARS_IN_ROW; //make sure characters on a line are less than 10
+	spaceNeeded = (size * FONT_WIDTH);
+	spaceAvailable = (128 - x);
+	
+	if(spaceNeeded < spaceAvailable) charsToPrint = size;
+	else charsToPrint = (spaceAvailable/FONT_WIDTH);
+	
+  for(i=0; i < charsToPrint; i++) //get all characters 
+	{
+		temp = charArray[i];
+		temp -= 32;
+		
+		for(j = 0; j < FONT_SIZE; j++)
+		{
+			AllChars[(i*FONT_SIZE) + j] = BigFont[(temp * FONT_SIZE) + j];
+		}
+	}
+	for(i = 0; i < (3*128); i++) arrToSend[i] = 0;
+	
+	for( i = 0 ; i < FONT_HEIGHT; i++)
+	{
+		while(whereAmI_char < charsToPrint)
+		{
+			for(j = 0; j < FONT_WIDTH; j++)
+			{                                     //12                          36                         12
+				arrToSend[((128*i) + (whereAmI_char * FONT_WIDTH) + j + x)] = AllChars[((FONT_SIZE*whereAmI_char) + (FONT_WIDTH*i) + j)];
+			}
+			whereAmI_char++;
+		}
+		whereAmI_char = 0;
+	}
+	 
+  setColAddress(0, 127);
+	setPageAddress(y, 7);
+	ssd1306_WriteData1(arrToSend, sizeof(arrToSend));
+}
+void TransferBuffer1(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underline)
 {
    UI16 j=0, k=0;
    UI8 temp; 						 	 	  								   //Temp variable to store a single character	 	 	  								                                                                                                                                            
-   UI8 sendInstruction[13];												   	   //Array 1 transfered to OLED
-   UI8 sendInstruction1[13];											   	   //Array 2 transfered to OLED
-   UI8 sendInstruction2[13];											   	   //Array 3 transfered to OLED
-   UI8 arr[1024];
+   UI8 sendInstruction[12];												   	   //Array 1 transfered to OLED
+   UI8 sendInstruction1[12];											   	   //Array 2 transfered to OLED
+   UI8 sendInstruction2[12];											   	   //Array 3 transfered to OLED
+   UI8 arr[36];
    UI8 Fonty = 36;											   				   //Byte size of the font
-
+	 
    for(k = 0; k < (size); k++) 												   //Convert the char array to character bytes 		  
    {
       temp = charArray[k];	   												    		   
-	  if(temp == 'b') { temp-=1; }   										   //To allow 'b' to be sent for note name with a flat	   			   		 
-	  temp -= 32; 															   //Font table starts at number 31			   
+	  //if(temp == 'b') { temp-=1; }   										   //To allow 'b' to be sent for note name with a flat	   			   		 
+	    temp -= 32; 															   //Font table starts at number 31			   
 	
       for(j = 0; j < Fonty; j++)											   //Find correct character in font table			   
       {
-		arr[j] = BigFont[(temp*Fonty)+j];
+				arr[j] = BigFont[(temp*Fonty)+j];
       }
       for(j=0; j < (((1*Fonty)-1)/3)+3; j++)
       {
@@ -383,21 +460,21 @@ void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underline)
       }
    	  for(j = 0; j < (((Fonty)-1)/3)+3; j++)                                   //This deals with the underlining
    	  {		  	   	 														   //Basically just add 128 to everything to create the line
-		 if(underline == 1) { sendInstruction2[j] = arr[24+(j-1)] + 128; }
-		 else { sendInstruction2[j] = arr[24+(j-1)]; }
+				if(underline == 1) { sendInstruction2[j] = arr[24+(j-1)] + 128; }
+				else { sendInstruction2[j] = arr[24+(j-1)]; }
    	  }
 	  
    	  setColAddress((x+k*12),127);
    	  setPageAddress(y, 7);
-		  ssd1306_WriteData1(sendInstruction, ((Fonty)/3)+1);
+		  ssd1306_WriteData1(sendInstruction, ((Fonty)/3));
 	  
    	  setColAddress((x+k*12),127);
    	  setPageAddress(y+1, 7);
-			ssd1306_WriteData1(sendInstruction1, ((Fonty)/3)+1);
+			ssd1306_WriteData1(sendInstruction1, ((Fonty)/3));
 
    	  setColAddress((x+k*12),127);
    	  setPageAddress(y+2, 7);
-			ssd1306_WriteData1(sendInstruction2, ((Fonty)/3)+1);
+			ssd1306_WriteData1(sendInstruction2, ((Fonty)/3));
    }
 }
 
@@ -505,12 +582,13 @@ void OLED_init(void)//GLCD_LcdInit(void)
 void OLED_Clr(UI8 col)
 {
 	UI16 i = 0;
-	
+	UI8 clrArr[1024];
 	for(i = 0; i < 1024; i++)
 	{
-		if(col == 0) ssd1306_WriteData(0x00);
-		else ssd1306_WriteData(0xFF);
+		if(col == 0) clrArr[i] = 0x00; 
+		else clrArr[i] = 0xFF; 
 	}
+	ssd1306_WriteData1(clrArr, sizeof(clrArr));
 }
 
 
