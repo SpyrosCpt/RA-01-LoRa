@@ -76,7 +76,7 @@ extern UI8 LoRaSetup(void);
 extern void LoRaPrint(UI8 *buffer);
 extern UI16 endPacket(void);
 extern UI8 beginPacket(void);
-extern void TestLoRaTransmitter(void);
+extern void TestLoRaTransmitter(UI8 *str);
 extern void LoRaPrint(UI8 *buffer);
 extern int parsePacket(void);
 extern int LoraRead(void);

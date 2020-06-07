@@ -30,7 +30,9 @@ typedef signed int      SI32;
 
 #define VREFINT_CAL_ADDR                0x1FFFF7BA  /* datasheet p. 19 */
 #define VREFINT_CAL ((uint16_t*) VREFINT_CAL_ADDR)
-
+#define LM34 					0
+#define LM35					1
+#define TEMP_SENSOR		LM34
 
 #include "hardware.h"
 #include "radio.h"

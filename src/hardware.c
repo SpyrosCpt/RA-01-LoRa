@@ -205,18 +205,28 @@ void ADC_Setup(void)
 
 	// Select PCLK/2 as ADC clock
 	ADC1->CFGR2 |= (0x01 <<ADC_CFGR2_CKMODE_Pos);
+	
+	/* calibration */
+    ADC1->CR |= ADC_CR_ADCAL;               /* start ADc CALibration */
+    while (ADC1->CR & ADC_CR_ADCAL);        /* wait for completion */
+    ADC1->CR |= ADC_CR_ADEN;                /* ADc ENable */
+    while (!(ADC1->ISR & ADC_ISR_ADRDY));   /* wait for completion */
+		
 
 	// Set sampling time to 28.5 ADC clock cycles
-	ADC1->SMPR = 0x03;
+	ADC1->SMPR = 0x04;
 
-	// Select channel 4
-	ADC1->CHSELR |= ADC_CHSELR_CHSEL4;
+  ADC->CCR |= ADC_CCR_VREFEN;
+	
+	// Select channel 11
+	ADC1->CHSELR |= ADC_CHSELR_CHSEL17;
 
+	
 	// Enable ADC
 	ADC1->CR |= ADC_CR_ADEN;
 
 	// Start conversion
-	ADC1->CR |= ADC_CR_ADSTART;
+	ADC1->CR |= ADC_CR_ADSTART; 
 }
 
 void SystemClock_Config(void)
@@ -261,5 +271,31 @@ void Setup( void )
 	if(DEBUG)UART_Setup(115200);
 	ADC_Setup();
 	
+	GetVddVal();
+	
+	OLED_RST_SET();
+	OLED_DC_SET();
+	LORA_CS_SET();
+	DF_CS_CLR();
+	EE_EWEN(); 
+	LORA_CS_SET();
+	
+	PrintfP("\nTesting, Hello World!");
+	PrintfP("\ntemp = %d",EE_READ(0x22));
 
+	delayms(10);
+	CLK_CLR();
+	MOSI_CLR();
+	OLED_CS_SET();
+	OLED_RST_SET();
+	OLED_DC_SET();
+	LORA_CS_SET();
+
+	OLED_init();
+	
+	setColAddress(0,127);
+	setPageAddress(0,7);
+	OLED_Clr(0);
+	ASK_CLR();
+	LoRaSetup();
 }

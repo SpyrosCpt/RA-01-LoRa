@@ -15,4 +15,4 @@ extern void int_asci_print(UI32 input);
 extern UI8 PutChar(UI8 data);
 extern void int_hexasci_print(UI8 input);
 extern void int_asci_print(UI32 input);
-extern UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...);
+extern UI8 PrintOLED(UI8 x, UI8 y, const UI8 *input, ...);

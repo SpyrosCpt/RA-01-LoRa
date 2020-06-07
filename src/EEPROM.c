@@ -1,22 +1,10 @@
 #include "preprocessor.h"
 
-void SPI_Send(UI8 data)
-{
-	while (!(SPI1->SR & SPI_SR_TXE)); // Wait until TX buffer is empty
-	SPI1->DR = data; // Send byte to SPI (TXE cleared)
-	while (SPI1->SR & SPI_SR_BSY); // Wait until the transmission is complete
-	
-	
-}
-
-UI8 SPI_Receive(UI8 data)
-{
-	SPI1->DR = data; // Send byte to SPI (TXE cleared)
-	delayus(10);
-	//while (!(SPI1->SR & SPI_SR_RXNE)); // Wait while receive buffer is empty
-
-	return (SPI1->DR); // Return received byte
-}
+/**
+	* @brief 	This function reads data via SPI (bit bang)
+	* @param 	None
+	* @retval data: data returned 
+	*/
 /* BB= BitBang */
 UI8 BB_ReadData(void)
 {
@@ -46,34 +34,11 @@ UI8 BB_ReadData(void)
 	return data;
 }
 
-UI8 BB_ReadData_9(void)
-{
-	UI8 i = 0;
-	UI8 j = 0;
-	UI8 k = 8;
-	UI16 data = 0;
-	UI16 temp = 0;
-	for(i = 0; i < 9; i++)
-	{
-		CLK_SET();
-		if(MISO_READ() != 0) 
-		{
-			temp = 1<<k;
-			data |= temp;
-		}
-		for(j = 0; j < 20; j++) ;
-		CLK_CLR();
-		for(j = 0; j < 20; j++) ;
-		k--;
-	}
-	CLK_CLR();
-	MOSI_CLR();
-	
-	for(j = 0; j < 50; j++) ;
-	
-	return (UI8)data;
-}
-
+/**
+	* @brief 	This function writes data via SPI (bit bang)
+	* @param 	data: data to write
+	* @retval none
+	*/
 void BB_WriteData(UI8 data)
 {
 	UI8 i = 0;
@@ -98,6 +63,11 @@ void BB_WriteData(UI8 data)
 
 /* Functions to interface with the AT93C46 */
 
+/**
+	* @brief 	This function enables erase and write 
+	* @param 	None
+	* @retval None
+	*/
 void EE_EWEN(void)
 {
 	DF_CS_CLR();
@@ -110,6 +80,11 @@ void EE_EWEN(void)
 	delayms(10);
 }
 
+/**
+	* @brief 	This function erases a byte of data at a specific address
+	* @param 	address: address of the datat to erase
+	* @retval None
+	*/
 UI8 EE_ERASE(UI8 address)
 {
 	UI8 temp = 0;
@@ -143,6 +118,12 @@ UI8 EE_ERASE(UI8 address)
 	return 1;
 }
 
+/**
+	* @brief 	This function writes data to the EEPROM
+	* @param 	address: address to write data
+	*					data: byte of data to write	
+	* @retval data: data returned 
+	*/
 UI8 EE_WRITE(UI8 address, UI8 data)
 {
 	UI8 temp = 0;
@@ -180,6 +161,11 @@ UI8 EE_WRITE(UI8 address, UI8 data)
 	return 1;
 }
 
+/**
+	* @brief 	This function reads a byte of data from the EEPROM
+	* @param 	address: address to read byte from 
+	* @retval None
+	*/
 UI8 EE_READ(UI8 address)
 {
 	UI8 data = 0;
@@ -205,6 +191,11 @@ UI8 EE_READ(UI8 address)
 	return data;
 }
 
+/**
+	* @brief 	This function disables erase and write
+	* @param 	None
+	* @retval None
+	*/
 void EE_EWDS(void)
 {
 	DF_CS_CLR();
@@ -216,6 +207,11 @@ void EE_EWDS(void)
 	DF_CS_CLR();
 }
 
+/**
+	* @brief 	This function erases all data in EEPROM
+	* @param 	None
+	* @retval None
+	*/
 UI8 EE_ERASE_ALL(void)
 {
 	UI8 temp = 0;

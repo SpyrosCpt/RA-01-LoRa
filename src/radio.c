@@ -1,36 +1,58 @@
 #include "preprocessor.h"
 
-
 //This LoRa lib is based of sandeepmistry LoRa lib
 //Found at: https://github.com/sandeepmistry/arduino-LoRa
+
 UI16 _packetIndex=0;
 
 void TestLoRaReceiver(void)
 {
+	UI8 ReceivedArr[256];
+	UI16 i=0;
+	
+	for(i = 0; i < sizeof(ReceivedArr); i++) ReceivedArr[i] = 0x00;
+	
 	int packetSize = parsePacket();
   if (packetSize) 
 	{
-		LED3_TOG();
-    // received a packet
-    PrintfP("\nReceived packet \n");
+		LED3_SET();
+    
+		// received a packet
+    PrintfP("\nReceived Packet \n");
+		PrintOLED( 0, 2, "Got Packet:");
 		delayms(10);
+		
+		i=0;
     // read packet
-    while (LoRaAvailable()) {PutChar(LoraRead()); }
+    while (LoRaAvailable()) 
+		{  
+			ReceivedArr[i] = LoraRead(); 
+			PrintfP("0x%x, ", ReceivedArr[i]); 
+			delaymms(10); 
+			if(i > 255) i=0;
+			else i++;
+		} 
+		
+		PrintOLED(0, 4, ReceivedArr);
+		LED3_CLR();
   }
 }
 
-void TestLoRaTransmitter(void)
+void TestLoRaTransmitter(UI8 *str)
 {
 	LED0_SET();
+	OLED_ClearLine(4);
 	PrintfP("\nSending packet: ");
 	delayms(10);
- // PrintOLED(0, 0, 0, "SEND PKT!");
+  PrintOLED(0, 2, "Send Packet!");
+	
 	// send packet
   beginPacket();
-  LoRaPrint("hello ");
-  LoRaPrint("world");
+  LoRaPrint(str);
   endPacket();
 	delaymms(500);
+	OLED_ClearLine(2);
+	
 	LED0_CLR();
 }
 void LoRaPrint(UI8 *buffer)
@@ -39,11 +61,9 @@ void LoRaPrint(UI8 *buffer)
 	UI16 currentLength;
 	
 	size = strlen((const char *)buffer);
-	PrintfP("\nString size = %d", size);
-	delayms(10);
+
 	currentLength = SPI_Read(REG_PAYLOAD_LENGTH);
-	PrintfP("\nCurrent length = %d", currentLength);	
-	delayms(10);
+
   // check size
   if ((currentLength + size) > MAX_PKT_LENGTH) {
     size = MAX_PKT_LENGTH - currentLength;
@@ -53,26 +73,18 @@ void LoRaPrint(UI8 *buffer)
   for (size_t i = 0; i < size; i++) {
     SPI_Write(REG_FIFO, buffer[i]);
   }
-  PrintfP("\nNew length = %d", currentLength + size);
-	delayms(10);
+ 
   // update length
   SPI_Write(REG_PAYLOAD_LENGTH, currentLength + size);
 }
 
 UI16 endPacket(void)
 {
-	PrintfP("\nTX Mode");
-	delayms(10);
-	// put in TX mode
 	SPI_Write(REGOPMODE, MODE_LONG_RANGE_MODE | TX_gc);
 
 	// wait for TX done
 	while ((SPI_Read(REG_IRQ_FLAGS) & IRQ_TX_DONE_MASK) == 0) { }
-  PrintfP("\nTX done");
-	delayms(10);
-	// clear IRQ's
-	PrintfP("\nClear IRQ\n");
-	delayms(10);
+
 	SPI_Write(REG_IRQ_FLAGS, IRQ_TX_DONE_MASK);
 	
 	return 1;
@@ -103,12 +115,6 @@ void SetOpMode(MODE_t mode)
 
 void Set_Frequency(UI32 freq)
 {
-    /*freq = ( UI32 )( ( double )freq / ( double ) FREQ_STEP );
-
-    SPI_Write( 0x06, ( UI8 )( ( freq >> 16 ) & 0xFF ) );
-    SPI_Write( 0x07, ( UI8 )( ( freq >> 8 ) & 0xFF ) );
-    SPI_Write( 0x08, ( UI8 )( freq & 0xFF ) );*/
-
   uint64_t frf = ((uint64_t)freq << 19) / 32000000;
 
   SPI_Write(REG_FRF_MSB, (uint8_t)(frf >> 16));
@@ -151,16 +157,9 @@ void explicitHeaderMode(void)
 
 UI8 beginPacket(void)
 {
-	// put in standby mode
-	PrintfP("\nPut in idle mode");
-	delayms(10);
   idle();
-	PrintfP("\nExplicit header mode");
-	delayms(10);
 	explicitHeaderMode();
 
-	PrintfP("\nReset FIFO's");
-	delayms(10);
   // reset FIFO address and paload length
   SPI_Write(REG_FIFO_ADDR_PTR, 0);
   SPI_Write(REG_PAYLOAD_LENGTH, 0);
@@ -196,8 +195,7 @@ UI8 LoRaSetup(void)
 
   // put in standby mode
   idle();
-	
-//	PrintOLED(0, 0, 0, "TEMP: %d", SPI_Read(REG_MODEM_CONFIG_3));
+
 	return 1;
 }
 
@@ -236,7 +234,6 @@ int parsePacket(void)
   int packetLength = 0;
   int irqFlags = SPI_Read(REG_IRQ_FLAGS);
 
-
   explicitHeaderMode();
 
   // clear IRQ's
@@ -244,12 +241,10 @@ int parsePacket(void)
 
   if ((irqFlags & IRQ_RX_DONE_MASK) && (irqFlags & IRQ_PAYLOAD_CRC_ERROR_MASK) == 0) 
 	{
-		//PrintOLED(0, 0, 0, "Somethng!");
     // received a packet
     _packetIndex = 0;
 
     // read packet length
-
     packetLength = SPI_Read(REG_RX_NB_BYTES);
 
     // set FIFO address to current RX address

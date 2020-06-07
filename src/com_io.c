@@ -290,11 +290,11 @@ void int_asci_print(UI32 input)
     if(D1 != '$') PutChar(D1);
 }
 
-UI16 int_asci_print2(UI8 charie[128], UI8 count1, UI32 input)
+UI16 int_asci_print2(UI8 charie[], UI8 count1, UI32 input)
 {
     UI8 D1000000, D100000, D10000, D1000, D100, D10, D1;
     UI8 nosupp=0;
-	UI8 count = count1;
+	  UI8 count = count1;
 	
     // if(input & 0x8000) PutChar('-');
     D1000000=input / 1000000;
@@ -392,54 +392,34 @@ UI16 int_asci_print2(UI8 charie[128], UI8 count1, UI32 input)
 	}
 	return count;
 }
-UI8 PrintOLED(UI8 underline, UI8 x, UI8 y, const UI8 *input, ...)
+UI8 PrintOLED(UI8 x, UI8 y, const UI8 *input, ...)
 {
-    UI16     count;
-
-    UI16    tempt;
-    UI8     success=0;
-    va_list argptr;
+	UI16     count;
+	UI16    tempt;
+	UI8     success=0;
+	va_list argptr;
 	UI8 charie[128];
-	UI8 row;
-	UI8 col;
 	UI8 index;
-	
-//	UI16 l;
-	
-	row = x;
-	col = y;
-	
-    va_start(argptr, input);
-	
+
+	va_start(argptr, input);
 	index = strlen((const char *)input); 
-  
-    for (count = 0; count < index; count++)
-    {
-       if (input[count] == '%')
-        {
-		    
-            if (input[count + 1] == 'd')
-            {
-			    tempt = va_arg(argptr, int);
-                count = int_asci_print2(charie, count, tempt);
-            }
-			else
-		    {
-		      charie[count] = input[count]; 
-		    } 
-		}
-        else
-		{
-		   charie[count] = input[count];
-		}    
-    }
-    
-	for(index = 0; index < sizeof(charie); index++)
+
+	for (count = 0; count < index; count++)
 	{
-	   if(charie[index] == 100) { charie[index] = 0x20; }
+		if (input[count] == '%')
+		{
+			if (input[count + 1] == 'd')
+			{
+				tempt = va_arg(argptr, int);
+				count = int_asci_print2(charie, count, tempt);
+			}
+			else charie[count] = input[count]; 
+		}
+		else charie[count] = input[count];  
 	}
-	TransferBuffer(charie, count, row, col, underline);
-	
+
+	TransferBuffer(charie, count, x, y);
+
 	va_end(argptr);
 	if (success < count) return(0); 
 	else return(1); 

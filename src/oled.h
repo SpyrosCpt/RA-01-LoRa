@@ -7,15 +7,14 @@
 #endif
 
 void OLED_init(void);
-void GLCD_Setting(void);
 extern void ssd1306_WriteData(UI8 byte);
 extern void ssd1306_WriteCommand(UI8 byte);
 extern void setPageAddress(UI8 x, UI8 y);
 extern void setColAddress(UI8 x, UI8 y);
 extern void OLED_Clr(UI8 col);
 extern void ssd1306_WriteData1(UI8 arr[], UI16 bytesToWrite);
-extern void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underline);
-
+extern void OLED_ClearLine(UI8 line);
+extern void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y);
 
 //FONT STUFF
 #define FONT_HEIGHT		3
@@ -65,13 +64,6 @@ extern void TransferBuffer(UI8 charArray[], UI8 size, UI8 x, UI8 y, UI8 underlin
 #define LCD_SET_COL_ADDR		0x21
 #define LCD_SET_PAGE_ADDR		0x22
 #define LCD_SET_COM					0xC9
-
-
-extern const UI8 BigFont[];
-extern UI8 u8CursorX, u8CursorY;
-extern void OLEDInstructionWrite (UI8 u8Instruction);
-
-#define lcd_goto(x,y) { u8CursorX=(x); u8CursorY=(y); }
 
 #undef EXT
 #define __OLED_H
