@@ -1,0 +1,246 @@
+EESchema Schematic File Version 4
+LIBS:LoRA_Dev-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 4
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L RF_Module:Ai-Thinker-Ra-01 U6
+U 1 1 5D7E8A58
+P 2950 2550
+F 0 "U6" H 2950 3531 50  0000 C CNN
+F 1 "Ai-Thinker-Ra-01" H 3450 3250 50  0000 C CNN
+F 2 "RF_Module:Ai-Thinker-Ra-01-LoRa" H 3950 2150 50  0001 C CNN
+F 3 "https://mikroelectron.com/Product/10KM-433M-LORA-LONG-RANGE-WIRELESS-MODULE-RA-01" H 3050 3250 50  0001 C CNN
+	1    2950 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_Coaxial J6
+U 1 1 5D7E9FF3
+P 1500 2050
+F 0 "J6" H 1428 2288 50  0000 C CNN
+F 1 "Conn_Coaxial" H 1428 2197 50  0000 C CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132134_Vertical" H 1500 2050 50  0001 C CNN
+F 3 " ~" H 1500 2050 50  0001 C CNN
+	1    1500 2050
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2450 2050 1700 2050
+$Comp
+L power:GND #PWR037
+U 1 1 5D7EAE53
+P 1500 2250
+F 0 "#PWR037" H 1500 2000 50  0001 C CNN
+F 1 "GND" H 1505 2077 50  0000 C CNN
+F 2 "" H 1500 2250 50  0001 C CNN
+F 3 "" H 1500 2250 50  0001 C CNN
+	1    1500 2250
+	1    0    0    -1  
+$EndComp
+Text GLabel 2450 2250 0    50   Input ~ 0
+LORA_RESET
+Text GLabel 2450 2450 0    50   Input ~ 0
+LORA_CS
+Text GLabel 2450 2550 0    50   Input ~ 0
+AF0_SPI1_SCK
+Text GLabel 2450 2650 0    50   Input ~ 0
+AF0_SPI1_MISO
+Text GLabel 2450 2750 0    50   Input ~ 0
+AF0_SPI1_MOSI
+Text GLabel 3450 2350 2    50   Input ~ 0
+LORA_ASK
+$Comp
+L power:+3.3V #PWR038
+U 1 1 5D7EC114
+P 2950 1750
+F 0 "#PWR038" H 2950 1600 50  0001 C CNN
+F 1 "+3.3V" H 3150 1750 50  0000 C CNN
+F 2 "" H 2950 1750 50  0001 C CNN
+F 3 "" H 2950 1750 50  0001 C CNN
+	1    2950 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR039
+U 1 1 5D7EC743
+P 2950 3250
+F 0 "#PWR039" H 2950 3000 50  0001 C CNN
+F 1 "GND" H 2955 3077 50  0000 C CNN
+F 2 "" H 2950 3250 50  0001 C CNN
+F 3 "" H 2950 3250 50  0001 C CNN
+	1    2950 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Interface_USB:CP2102N-A01-GQFN28 U8
+U 1 1 5D7ECDEB
+P 9250 4750
+F 0 "U8" H 9400 6150 50  0000 C CNN
+F 1 "CP2102N-A01-GQFN28" H 8600 3450 50  0000 C CNN
+F 2 "Package_DFN_QFN:QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm" H 9700 3550 50  0001 L CNN
+F 3 "https://www.silabs.com/documents/public/data-sheets/cp2102n-datasheet.pdf" H 9300 4000 50  0001 C CNN
+	1    9250 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C16
+U 1 1 5D7F2DAF
+P 8750 2950
+F 0 "C16" V 8498 2950 50  0000 C CNN
+F 1 "C_1uF" V 8589 2950 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8788 2800 50  0001 C CNN
+F 3 "~" H 8750 2950 50  0001 C CNN
+	1    8750 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R17
+U 1 1 5D7F3256
+P 10000 3950
+F 0 "R17" V 9900 3950 50  0000 C CNN
+F 1 "R_470R" V 9800 3950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9930 3950 50  0001 C CNN
+F 3 "~" H 10000 3950 50  0001 C CNN
+	1    10000 3950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR042
+U 1 1 5D7F4787
+P 9250 6050
+F 0 "#PWR042" H 9250 5800 50  0001 C CNN
+F 1 "GND" H 9255 5877 50  0000 C CNN
+F 2 "" H 9250 6050 50  0001 C CNN
+F 3 "" H 9250 6050 50  0001 C CNN
+	1    9250 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR041
+U 1 1 5D7F4C80
+P 8750 2800
+F 0 "#PWR041" H 8750 2550 50  0001 C CNN
+F 1 "GND" H 8755 2627 50  0000 C CNN
+F 2 "" H 8750 2800 50  0001 C CNN
+F 3 "" H 8750 2800 50  0001 C CNN
+	1    8750 2800
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:VBUS #PWR040
+U 1 1 5D7F50E0
+P 7900 3950
+F 0 "#PWR040" H 7900 3800 50  0001 C CNN
+F 1 "VBUS" H 7915 4123 50  0000 C CNN
+F 2 "" H 7900 3950 50  0001 C CNN
+F 3 "" H 7900 3950 50  0001 C CNN
+	1    7900 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:USB_B_Mini J7
+U 1 1 5D7F9AC0
+P 7050 4150
+F 0 "J7" H 7107 4617 50  0000 C CNN
+F 1 "USB_B_Mini" H 7107 4526 50  0000 C CNN
+F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 7200 4100 50  0001 C CNN
+F 3 "~" H 7200 4100 50  0001 C CNN
+	1    7050 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 3950 7350 3950
+Connection ~ 7900 3950
+$Comp
+L Device:C C17
+U 1 1 5D7FC543
+P 9400 3100
+F 0 "C17" V 9148 3100 50  0000 C CNN
+F 1 "C_100nF" V 9239 3100 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 9438 2950 50  0001 C CNN
+F 3 "~" H 9400 3100 50  0001 C CNN
+	1    9400 3100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8750 4050 8500 4050
+Wire Wire Line
+	8500 3100 8750 3100
+Wire Wire Line
+	9150 3100 9150 3450
+Wire Wire Line
+	9250 3450 9250 3100
+$Comp
+L power:GND #PWR043
+U 1 1 5D7FDB0C
+P 9650 3100
+F 0 "#PWR043" H 9650 2850 50  0001 C CNN
+F 1 "GND" H 9655 2927 50  0000 C CNN
+F 2 "" H 9650 3100 50  0001 C CNN
+F 3 "" H 9650 3100 50  0001 C CNN
+	1    9650 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9650 3100 9550 3100
+Wire Wire Line
+	8500 3100 8500 4050
+Text GLabel 8500 3100 0    50   Input ~ 0
+VBUS
+Wire Wire Line
+	9850 3950 9750 3950
+Wire Wire Line
+	9750 3850 10150 3850
+Text GLabel 10150 3950 2    50   Input ~ 0
+AF1_USART1_RX
+Text GLabel 10150 3850 2    50   Input ~ 0
+AF1_USART1_TX
+Connection ~ 8750 3100
+Wire Wire Line
+	8750 3100 9150 3100
+$Comp
+L Device:Fuse_Small F2
+U 1 1 5ED3204B
+P 7050 4700
+F 0 "F2" V 7004 4748 50  0000 L CNN
+F 1 "Fuse_Small" V 7095 4748 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 7050 4700 50  0001 C CNN
+F 3 "~" H 7050 4700 50  0001 C CNN
+	1    7050 4700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7050 4550 7050 4600
+Wire Wire Line
+	8500 4050 7900 4050
+Wire Wire Line
+	7900 3950 7900 4050
+Connection ~ 8500 4050
+$Comp
+L power:GND #PWR0106
+U 1 1 5ED32CDF
+P 7050 4800
+F 0 "#PWR0106" H 7050 4550 50  0001 C CNN
+F 1 "GND" H 7055 4627 50  0000 C CNN
+F 2 "" H 7050 4800 50  0001 C CNN
+F 3 "" H 7050 4800 50  0001 C CNN
+	1    7050 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 4150 8750 4150
+Wire Wire Line
+	7350 4250 8750 4250
+$EndSCHEMATC
