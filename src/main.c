@@ -249,8 +249,6 @@ void getTemp(void)
 	}
 }
 
-
-
 int main( void )
 {	
 	Setup();                          																			 /* Setup the hardware and peripherals */  
@@ -261,7 +259,6 @@ int main( void )
 	  
 		getTemp();
 		GetDeviceAddress();
-		
 		TestLoRaReceiver();
 	}
 }
