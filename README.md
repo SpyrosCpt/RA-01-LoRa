@@ -7,4 +7,5 @@
 - EEPROM working
 - Temp Sensor
 
-Thanks man
+## Hardware Version 1.1
+![alt text](https://github.com/SpyrosCpt/RA-01-LoRa/blob/master/Hardware/3d%20model.png)
