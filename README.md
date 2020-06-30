@@ -11,6 +11,12 @@
 - AT93C46 EEPROM
 - 4 Way DIP Switch
 - 4 Push Buttons
+- STM32 programming by SWD
+
+## Firmware Example Provided
+- Press Push Button 1 to Send LoRA Packet, you can change the data to send by editing TestLoraTransmit("packet to send")
+- When not transmitting LoRA radio is in Receiver mode and will display any messages receievd
+- Temperature Monitoring of LM35 will be displayed on OLED
 
 ## Hardware Version 1.1
 ![alt text](https://github.com/SpyrosCpt/RA-01-LoRa/blob/master/Hardware/3d%20model.png)
