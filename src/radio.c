@@ -5,45 +5,55 @@
 
 UI16 _packetIndex=0;
 
+/**
+* @brief 	This function checks for any incomming LoRA packets (Note: max size is 256 bytes)
+	* @param 	None
+	*	@retval None
+	*/
 void TestLoRaReceiver(void)
 {
 	UI8 ReceivedArr[256];
 	UI16 i=0;
 	
-	for(i = 0; i < sizeof(ReceivedArr); i++) ReceivedArr[i] = 0x00;
+	for(i = 0; i < sizeof(ReceivedArr); i++) ReceivedArr[i] = 0x00; //Clear array
 	
 	int packetSize = parsePacket();
-  if (packetSize) 
+  if (packetSize)                         //Packet is available
 	{
 		LED3_SET();
     
 		// received a packet
     PrintfP("\nReceived Packet \n");
 		PrintOLED( 0, 2, "Got Packet:");
-		delayms(10);
+		delaymms(10);
 		
 		i=0;
     // read packet
-    while (LoRaAvailable()) 
+    while (LoRaAvailable())              //While there is data read the packet
 		{  
 			ReceivedArr[i] = LoraRead(); 
 			PrintfP("0x%x, ", ReceivedArr[i]); 
 			delaymms(10); 
-			if(i > 255) i=0;
+			if(i > 256) i=0;                  //Packet bigger than 256 so wrap
 			else i++;
 		} 
 		
-		PrintOLED(0, 4, ReceivedArr);
+		PrintOLED(0, 4, ReceivedArr);       //Print to OLED (remember we can display all 256 bytes)
 		LED3_CLR();
   }
 }
 
+/**
+	* @brief 	This function sends out a LoRA packet
+	* @param 	str- string to send
+	*	@retval None
+	*/
 void TestLoRaTransmitter(UI8 *str)
 {
 	LED0_SET();
 	OLED_ClearLine(4);
 	PrintfP("\nSending packet: ");
-	delayms(10);
+	delaymms(10);
   PrintOLED(0, 2, "Send Packet!");
 	
 	// send packet
@@ -55,6 +65,12 @@ void TestLoRaTransmitter(UI8 *str)
 	
 	LED0_CLR();
 }
+
+/**
+	* @brief 	This function sends out a packet
+	* @param 	*buffer - buffer to transmit
+	*	@retval None
+	*/
 void LoRaPrint(UI8 *buffer)
 {
 	UI8 size;
@@ -90,6 +106,12 @@ UI16 endPacket(void)
 	return 1;
 }
 
+/**
+	* @brief 	This function write via SPI to the RA-01
+	* @param 	address - address to write to
+	*					data - data to write
+	*	@retval None
+	*/
 void SPI_Write(UI8 address, UI8 data)
 {
 		LORA_CS_CLR();
@@ -98,6 +120,11 @@ void SPI_Write(UI8 address, UI8 data)
 		LORA_CS_SET();
 }
 
+/**
+	* @brief 	This function reads data from RA-01 via SPI
+	* @param 	address - address to read from
+	*	@retval data1 - data returned
+	*/
 UI8 SPI_Read(UI8 address)
 {
 		uint32_t data1=0;
@@ -108,11 +135,21 @@ UI8 SPI_Read(UI8 address)
 		return data1;
 }
 
+/**
+	* @brief 	This function sets the operating mode of the RA-01
+	* @param 	mode - the mode to set
+	*	@retval None
+	*/
 void SetOpMode(MODE_t mode)
 {
     SPI_Write( 0x01, (0x20|mode));//( SPI_Read( 0x01 ) & 0xF8 ) | mode );
 }
 
+/**
+	* @brief 	This function sets up the LoRA frequency (433MHz)
+	* @param 	freq - frequency to set
+	*	@retval None
+	*/
 void Set_Frequency(UI32 freq)
 {
   uint64_t frf = ((uint64_t)freq << 19) / 32000000;
@@ -167,6 +204,11 @@ UI8 beginPacket(void)
   return 1;
 }
 
+/**
+	* @brief 	This function sets up the RA-01
+	* @param 	None
+	*	@retval 1 - successful, 0 - not successful
+	*/
 UI8 LoRaSetup(void)
 {
 	LORA_RST_CLR();                       //reset LoRa radio
@@ -197,20 +239,6 @@ UI8 LoRaSetup(void)
   idle();
 
 	return 1;
-}
-
-void AnotherSetup(void)
-{
-	// carrier frequency:           434.0 MHz
-  // bandwidth:                   125.0 kHz
-  // spreading factor:            9
-  // coding rate:                 7
-  // sync word:                   0x12
-  // output power:                17 dBm
-  // current limit:               100 mA
-  // preamble length:             8 symbols
-  // amplifier gain:              0 (automatic gain control)
-	
 }
 
 int LoRaAvailable(void)

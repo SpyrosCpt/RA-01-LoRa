@@ -5,17 +5,15 @@
 /****************************************/
 /***************PROTOTYPES***************/
 /****************************************/
-
-void Setup_ISR( void );
-void SPI_Setup(void);
-UI8 Checksum(volatile UI8 *data, UI8 length);
-UI8 EE_StoreZones(UI8 zone, UI8 sensor);
-void EE_EraseZone(UI8 zone);
-UI8 EE_Store_All_Zones(void);
-void EE_Erase_All_Zones(void);
-void EE_ResoreZones(void);
-void EELoadData(void);
-
+void delaymms(int ms);
+void delayuus(int us);
+void getTemp(void);
+void GetDeviceAddress(void);
+UI16 GetAnalogVal(UI8 ch);
+void GetVddVal(void);
+UI16 Get_ADC_Val( void ); 
+void DisableADC(void);
+void EnableADC(void);
 /****************************************/
 /***********END OF PROTOTYPES************/
 /****************************************/
@@ -37,11 +35,22 @@ UI16 AddressTimer = 0;
 /**********GLOBAL VARIABLES END**********/
 /****************************************/
 
+/**
+	* @brief 	This is the systick interrupt handler, it fires every 10uS
+	* @param 	None
+	*	@retval None
+	*/
 void SysTick_Handler( void )
 {
    if( systick ) systick--;
 	 if( MILLISECS ) MILLISECS--;
 }
+
+/**
+* @brief 	This function delays for x microseconds (note: resolution is 10uS)
+	* @param 	us - time to wait in us
+	*	@retval None
+	*/
 void delayuus(int us)
 {
 	systick = us;
@@ -49,6 +58,11 @@ void delayuus(int us)
 	while(systick) ;
 }
 
+/**
+	* @brief 	This function delays for x milliseconds
+	* @param 	ms - time to wait in ms
+	*	@retval None
+	*/
 void delaymms(int ms)
 {
 	MILLISECS = ms*100;
@@ -86,19 +100,10 @@ if( TIM17->SR & TIM_SR_UIF ) 					/* If UIF flag is set */
 }
 
 /**
-	* @brief 	This is the Timer 14 interrupt 
+	* @brief 	This function enables the ADC
 	* @param 	None
 	*	@retval None
 	*/
-
-void TIM14_IRQHandler( void )
-{
-	if( ( TIM14->SR & TIM_SR_CC1IF ) != 0 )
-	{
-		TIM14->SR &= ~( TIM_SR_CC1IF | TIM_SR_CC1OF);		
-	}
-}
-
 void EnableADC(void)
 {
 	/* (1) Clear the ADRDY bit */
@@ -116,7 +121,7 @@ void EnableADC(void)
 }
 
 /**
-	* @brief 	This disables the ADC
+	* @brief 	This function disables the ADC
 	* @param 	none		  
 	* @retval none
 	*/
@@ -142,7 +147,12 @@ void DisableADC(void)
 	}
 }
 
-UI16 Get_ADC_Val( void )
+/**
+	* @brief 	This function gets 60 values from the ADC and takes an average of them
+	* @param 	None
+	*	@retval Val16 - the averaged ADC value
+	*/
+UI16 Get_ADC_Val( void ) 
 { 
 	UI8 samples = 0;                					    /* Each sample takes 1uS so we should get this over and done with in about 100uS */
 	UI8 NumSamples = 60;
@@ -164,6 +174,11 @@ UI16 Get_ADC_Val( void )
 
 }
 
+/**
+	* @brief 	This function gets the actual value of Vdd using the stored calibration value
+	* @param 	None
+	*	@retval None
+	*/
 void GetVddVal(void)
 {
 	adcraw = 0;
@@ -175,17 +190,21 @@ void GetVddVal(void)
 	
 	adcraw = Get_ADC_Val();
 
-	Vdd = 3300UL * (*VREFINT_CAL) / adcraw;
+	Vdd = 3300UL * (*VREFINT_CAL) / adcraw;         /*Calculate actual Vdd value*/
 	
 	PrintfP("\nVdd = %d", Vdd);
 	PrintfP("\nADC = %d", adcraw);
 
-	if(Vdd>3500) Vdd=3300; //sanity
+	if(Vdd>3500) Vdd=3300; //sanity                 /* Will sanitize if values are wonky */
 	if(Vdd<3000) Vdd=3300;
 	
 }
 
-
+/**
+	* @brief 	This function sets and enables an analog channel and returns an ADC value from the channel
+	* @param 	ch - channel to set
+	*	@retval adcval - ADC value to return
+	*/
 UI16 GetAnalogVal(UI8 ch)
 {
 	adcval = 0;
@@ -202,6 +221,11 @@ UI16 GetAnalogVal(UI8 ch)
 	return adcval;
 }
 
+/**
+	* @brief 	This function reads the position from the DIP switch and returns the value as an address
+	* @param 	None
+	*	@retval None
+	*/
 void GetDeviceAddress(void)
 {
 	UI8 DIPS[4] = {0,0,0,0};
@@ -224,7 +248,12 @@ void GetDeviceAddress(void)
 	}
 }
 
-void getTemp(void)
+/**
+	* @brief 	This function gets a value from the LM35 or LM34 sensor (choose this in preprocessor.h)
+	* @param 	None
+	*	@retval None
+	*/
+void getTemperature(void)
 {
 	UI32 temp = 0;
 	float temp2 = 0;
@@ -255,11 +284,11 @@ int main( void )
 	
 	while(1)
 	{
-		if(PB0_READ() == 0) { TestLoRaTransmitter("Hello World"); }
+		if(PB0_READ() == 0) TestLoRaTransmitter("Hello World"); /* Send out a packet */
 	  
-		getTemp();
-		GetDeviceAddress();
-		TestLoRaReceiver();
+		getTemperature();                                              /* Get value from temperature sensor */
+		GetDeviceAddress();                                     /* Check the DIP switches */
+		TestLoRaReceiver();                                     /* Check and see if any incomming packets */
 	}
 }
 

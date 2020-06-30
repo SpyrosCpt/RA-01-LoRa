@@ -384,9 +384,9 @@ void OLED_ClearLine(UI8 line)
 void OLED_Reset(void)
 {
 	OLED_RST_SET();
-	delayus(1);
+	delayuus(1);
 	OLED_RST_CLR();
-	delayus(10);
+	delayuus(10);
 	OLED_RST_SET();
 }
 

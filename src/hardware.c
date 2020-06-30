@@ -1,6 +1,16 @@
 #include "preprocessor.h"
 
-
+/**
+	* @brief 	This function sets up a GPIO
+	* @param 	*PORT - the port (GPIOA, GPIOB etc)
+	*         pin - pin to use 0 - 15
+	*					direction - INPUT or OUTPUT
+	*					type - PushPull, OpenDrain
+	*					speed - LoSpeed, MedSpeed, HiSpeed
+	*					pull - PullUp, PullDwn, NoPull
+	*					state - SET, RESET, NONE
+	*	@retval None
+	*/
 void Set_Pin( GPIO_TypeDef * PORT, uint8_t pin, uint8_t direction, uint8_t type, uint8_t speed, uint8_t pull, uint8_t state )
 {
 	Set_Mode( PORT, pin, direction );
@@ -31,6 +41,11 @@ void Set_Pull(GPIO_TypeDef * PORT, uint8_t pin, uint8_t pull )
 	PORT->PUPDR |= ( pull<< ( pin * 2 ) );
 }
 
+/**
+	* @brief 	This function sets up the GPIO
+	* @param 	None
+	*	@retval None
+	*/
 void Ports_Setup( void )
 {
 	Set_Pin(GPIOB,  5, OUTPUT, PushPull, HiSpeed, NoPull, SET);
@@ -63,6 +78,11 @@ void Ports_Setup( void )
 	Set_Pin(GPIOB,  10, OUTPUT, PushPull, HiSpeed, NoPull, SET); //LORA_RESET
 }
 
+/**
+	* @brief 	This function sets up the Timer3 (1ms resolution)
+	* @param 	None
+	*	@retval None
+	*/
 void TIM3_Setup(void)//1ms resolution
 {
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
@@ -73,6 +93,11 @@ void TIM3_Setup(void)//1ms resolution
 	NVIC_EnableIRQ( TIM3_IRQn ); // Enable interrupt from TIM3 (NVIC level)
 }
 
+/**
+	* @brief 	This function sets up the Timer17 (10us resolution)
+	* @param 	None
+	*	@retval None
+	*/
 void TIM17_Setup(void)//10us resolution
 {
 	RCC->APB2ENR |= RCC_APB2ENR_TIM17EN;
@@ -83,40 +108,11 @@ void TIM17_Setup(void)//10us resolution
 	NVIC_EnableIRQ( TIM17_IRQn ); // Enable interrupt from TIM3 (NVIC level)
 }
 
-void TIM14_Setup(void)//1ms resolution
-{
-	RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
-	
-	//Setup according to example in reference manual (pg 745)
-	
-	/* (1) Select the active input TI1 (CC1S = 01),
-program the input filter for 8 clock cycles (IC1F = 0011),
-select the rising edge on CC1 (CC1P = 0, reset value)
-and prescaler at each valid transition (IC1PS = 00, reset value) */
-/* (2) Enable capture by setting CC1E */
-/* (3) Enable interrupt on Capture/Compare */
-/* (4) Enable counter */
-	
-	TIM14->CCMR1 |= TIM_CCMR1_CC1S_0
-							| TIM_CCMR1_IC1F_0 | TIM_CCMR1_IC1F_1; //channel 1
-	TIM14->CCER |= 0x03;//TIM_CCER_CC1E | TIM_CCER_CC1P; //CC1P: rising = 0, falling = 1
-	TIM14->DIER |= TIM_DIER_CC1IE;
-	TIM14->CR1 |= TIM_CR1_CEN; 
-	NVIC_EnableIRQ( TIM14_IRQn ); // Enable interrupt from TIM3 (NVIC level)
-}
-
-void delayms(uint32_t delay)
-{
-	uint32_t	i;
-	for(i=0; i<(delay*1000); i++);		// Tuned for ms at 48MHz
-}
-
-void delayus(uint32_t delay)
-{
-	uint32_t	i;
-	for(i=0; i<(delay*3); i++);		// Tuned for µs at 48MHz
-}
-
+/**
+	* @brief 	This function sets up systick (10uS)
+	* @param 	None
+	*	@retval None
+	*/
 void SysTick_Init(void) 
 {
 	/****************************************
@@ -130,7 +126,11 @@ void SysTick_Init(void)
 } 
 
 
-
+/**
+	* @brief 	This function sets up the USART at baud 115200
+	* @param 	None
+	*	@retval None
+	*/
 #if DEBUG
 void UART_Setup(UI32 baud)
 {
@@ -179,6 +179,12 @@ void UART_Setup(UI32 baud)
   NVIC_EnableIRQ(USART1_IRQn);
 }
 #endif
+
+/**
+	* @brief 	This function sets up the ADC
+	* @param 	None
+	*	@retval None
+	*/
 void ADC_Setup(void)
 {
 	// Enable GPIOC clock
@@ -203,8 +209,8 @@ void ADC_Setup(void)
 	// 12-bit resolution
 	ADC1->CFGR1 |= (0x00 <<ADC_CFGR1_RES_Pos);
 
-	// Select PCLK/2 as ADC clock
-	ADC1->CFGR2 |= (0x01 <<ADC_CFGR2_CKMODE_Pos);
+	// Select PCLK/4 as ADC clock
+	ADC1->CFGR2 |= (0x02 <<ADC_CFGR2_CKMODE_Pos);
 	
 	/* calibration */
     ADC1->CR |= ADC_CR_ADCAL;               /* start ADc CALibration */
@@ -229,6 +235,13 @@ void ADC_Setup(void)
 	ADC1->CR |= ADC_CR_ADSTART; 
 }
 
+/**
+	* @brief 	This function sets up the main clock 
+  *					Uses internal HSI (8MHz)
+  *         Then PLL for 48MHz 
+	* @param 	None
+	*	@retval None
+	*/
 void SystemClock_Config(void)
 {
 	RCC->CR |= RCC_CR_HSION;																		//Turn on High Speed Internal clock (8MHz)
@@ -263,27 +276,27 @@ void SystemClock_Config(void)
 void Setup( void )
 {
 	//Clock_Setup();
-	SystemClock_Config();
-	Ports_Setup();
-	TIM17_Setup();
-	TIM3_Setup();
-	SysTick_Init();
-	if(DEBUG)UART_Setup(115200);
-	ADC_Setup();
+	SystemClock_Config();  //Setup clock
+	Ports_Setup();         //Setup GPIO
+	TIM17_Setup();         //Setup Timer17
+	TIM3_Setup();          //Setup Timer3
+	SysTick_Init();        //Setup SysTick
+	if(DEBUG)UART_Setup(115200); //Setup USART
+	ADC_Setup();           //Setup ADC
 	
-	GetVddVal();
+	GetVddVal();           //Get the actual Vdd
 	
-	OLED_RST_SET();
+	OLED_RST_SET();        //Reset the OLED, LORA 
 	OLED_DC_SET();
 	LORA_CS_SET();
 	DF_CS_CLR();
-	EE_EWEN(); 
+	EE_EWEN();            //Enable EEPROM
 	LORA_CS_SET();
 	
 	PrintfP("\nTesting, Hello World!");
 	PrintfP("\ntemp = %d",EE_READ(0x22));
 
-	delayms(10);
+	delaymms(10);
 	CLK_CLR();
 	MOSI_CLR();
 	OLED_CS_SET();
@@ -291,11 +304,11 @@ void Setup( void )
 	OLED_DC_SET();
 	LORA_CS_SET();
 
-	OLED_init();
+	OLED_init();          //Setup OLED
 	
 	setColAddress(0,127);
 	setPageAddress(0,7);
 	OLED_Clr(0);
 	ASK_CLR();
-	LoRaSetup();
+	LoRaSetup();          //Setup LoRA
 }

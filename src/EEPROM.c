@@ -77,7 +77,7 @@ void EE_EWEN(void)
 	BB_WriteData(0x60);
 	
 	DF_CS_CLR();
-	delayms(10);
+	delaymms(10);
 }
 
 /**
@@ -104,14 +104,14 @@ UI8 EE_ERASE(UI8 address)
 	{
 		temp++;
 		
-		delayms(1);
+		delaymms(1);
 		
 		if(temp == 255) break;
 	}
 	
 	DF_CS_CLR();
 	
-	delayms(10);
+	delaymms(10);
 	
 	if(temp == 255) return 0;
 	
@@ -147,14 +147,14 @@ UI8 EE_WRITE(UI8 address, UI8 data)
 	{
 		temp++;
 		
-		delayms(1);
+		delaymms(1);
 		
 		if(temp == 255) break;
 	}
 	
 	DF_CS_CLR();
 	
-	delayms(10);
+	delaymms(10);
 	
 	if(temp == 255) return 0;
 	
@@ -169,25 +169,17 @@ UI8 EE_WRITE(UI8 address, UI8 data)
 UI8 EE_READ(UI8 address)
 {
 	UI8 data = 0;
-//	UI8 data2 = 0;
-//	UI16 temp = 0;
 	DF_CS_CLR();
 	DF_CS_SET(); 
 	
   BB_WriteData(0x03);
 	BB_WriteData(address);
-	delayms(1);
+	delaymms(1);
 	
 	data = BB_ReadData();
 	
 	DF_CS_CLR();
 
- /* data = data << 1; // bitwise shift to get rid of the preceding 0
-	
-	if ((data2>>7) == 1)
-		{
-      data = data + 1; // change LSB if needed
-    }*/
 	return data;
 }
 
@@ -225,13 +217,13 @@ UI8 EE_ERASE_ALL(void)
 	while(MISO_READ() == 0) 
 	{
 		temp++;
-		delayms(1);
+		delaymms(1);
 		if(temp == 255) break;
 	}
 	
 	DF_CS_CLR();
 	
-	delayms(10);
+	delaymms(10);
 	
 	if(temp == 255) return 0;
 	

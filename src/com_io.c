@@ -5,6 +5,11 @@ UI8         USB_TX_Buffer[USB_TX_BUFFSIZE];
 
 UI16        USB_RX_end, USB_TX_end, USB_RX_start, USB_TX_start=0;
 
+/**
+	* @brief 	This function clears the RX buffer
+	* @param 	None
+	*	@retval None
+	*/
 void ClrRX(void)
 {
 	UI16    k;
@@ -17,6 +22,11 @@ void ClrRX(void)
 	}
 }
 
+/**
+	* @brief 	This function clears the TX buffer
+	* @param 	None
+	*	@retval None
+	*/
 void ClrTX(void)
 {
 	UI16    k;    
@@ -28,6 +38,12 @@ void ClrTX(void)
 		USB_TX_Buffer[k]=0;
 	}
 }
+
+/**
+	* @brief 	This function converts a decimel input to hex
+	* @param 	input - input to convert
+	*	@retval None
+	*/
 void int_hexasci_print(UI8 input)
 {
     	UI8 ucsTempH, ucsTempL;
@@ -55,6 +71,11 @@ void int_hexasci_print(UI8 input)
     	PutChar(ucsTempL);
 }
 
+/**
+	* @brief 	This function prints a char to the serial port
+	* @param 	data - char to print
+	*	@retval 1 - successful, 0 - not successful
+	*/
 UI8 PutChar(UI8 data)
 {	
 	UI16 Temp16;
@@ -76,31 +97,22 @@ UI8 PutChar(UI8 data)
 	return 0;
 }
 
-
-/*
- =======================================================================================================================
-    description:    Test to see if there is a UI8acter in the receive buffer
-
-    returns:    1 if there is something, 0 if there is nothing
-
-    parameters: none
- =======================================================================================================================
- */
+/**
+	* @brief 	This function tests to see if there is a character in the receive buffer
+	* @param 	None
+	*	@retval 1 if there is something, 0 if there is nothing
+	*/
 UI8 is_Char(void)
 {
 		return(USB_RX_end != USB_RX_start);
 }
 
-/*
- =======================================================================================================================
-    description:    Get A single UI8acter from the Serial port receive buffer this is normally called after checking
-                    the buffer using is_Char()
-
-    returns:    UI8acter extracted from buffer
-
-    parameters: none
- =======================================================================================================================
- */
+/**
+	* @brief 	This function gets A single UI8acter from the Serial port receive buffer this is normally 
+  * 				called after checking the buffer using is_Char()
+	* @param 	None
+	*	@retval Character extracted from buffer
+	*/
 UI8 comms_getch(void)
 {
     UI8     temp;
@@ -119,10 +131,13 @@ UI8 comms_getch(void)
 				__enable_irq();
 				return(temp);
 		}
-		
-//    return(0);
 }
 
+/**
+	* @brief 	This is the USART1 interrupt handler (TX and RX interrupt) 
+	* @param 	None
+	*	@retval None
+	*/
 void USART1_IRQHandler( void )
 {
 	int temp = 0;
@@ -160,6 +175,11 @@ void USART1_IRQHandler( void )
 	}
 }
 
+/**
+	* @brief 	This function is a custom printf
+	* @param 	input - string to print
+	*	@retval returns 1 if successful, 0 if not
+	*/
 UI8 PrintfP(const UI8 *input, ...)    // works like printf
 {
     UI16     count;
@@ -209,6 +229,12 @@ UI8 PrintfP(const UI8 *input, ...)    // works like printf
     else
         return(1);
 }
+
+/**
+	* @brief 	This function converts the unsigned character data to ascii data
+	* @param 	input - the unsigned characters
+	*	@retval None
+	*/
 void int_asci_print(UI32 input)
 {
     UI8 D1000000, D100000, D10000, D1000, D100, D10, D1;
@@ -290,6 +316,13 @@ void int_asci_print(UI32 input)
     if(D1 != '$') PutChar(D1);
 }
 
+/**
+	* @brief 	This function is the same as above, but is dedicated to the OLED printf
+	* @param 	charie[] - the character array to be sent to OLED
+  *					count1 - how many characters
+	*					input - the input array
+	*	@retval None
+	*/
 UI16 int_asci_print2(UI8 charie[], UI8 count1, UI32 input)
 {
     UI8 D1000000, D100000, D10000, D1000, D100, D10, D1;
@@ -392,6 +425,14 @@ UI16 int_asci_print2(UI8 charie[], UI8 count1, UI32 input)
 	}
 	return count;
 }
+
+/**
+	* @brief 	This is custom printf to print data to OLED
+	* @param 	x - x position
+  *         y - y position
+  *					input - data to be send to OLED
+	*	@retval None
+	*/
 UI8 PrintOLED(UI8 x, UI8 y, const UI8 *input, ...)
 {
 	UI16     count;

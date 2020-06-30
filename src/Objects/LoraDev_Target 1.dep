@@ -1,7 +1,7 @@
 Dependencies for Project 'LoraDev', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
-F (.\main.c)(0x5EDD3EA4)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (preprocessor.h)(0x5EDD315A)
+F (.\main.c)(0x5EFB8FDD)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -18,9 +18,9 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
-F (.\radio.c)(0x5EDD36C9)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\radio.o --omf_browse .\objects\radio.crf --depend .\objects\radio.d)
-I (preprocessor.h)(0x5EDD315A)
+I (main.h)(0x5EFB9044)
+F (.\radio.c)(0x5EFB9019)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\radio.o --omf_browse .\objects\radio.crf --depend .\objects\radio.d)
+I (preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -37,10 +37,10 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
+I (main.h)(0x5EFB9044)
 F (.\radio.h)(0x5EDCEDEA)()
-F (.\hardware.c)(0x5EDCEAC1)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\hardware.o --omf_browse .\objects\hardware.crf --depend .\objects\hardware.d)
-I (preprocessor.h)(0x5EDD315A)
+F (.\hardware.c)(0x5EFB9163)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\hardware.o --omf_browse .\objects\hardware.crf --depend .\objects\hardware.d)
+I (preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -57,11 +57,11 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
+I (main.h)(0x5EFB9044)
 F (.\hardware.h)(0x5ECD6629)()
-F (.\preprocessor.h)(0x5EDD315A)()
-F (.\EEPROM.c)(0x5EDCFFFF)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\eeprom.o --omf_browse .\objects\eeprom.crf --depend .\objects\eeprom.d)
-I (preprocessor.h)(0x5EDD315A)
+F (.\preprocessor.h)(0x5EFB89C8)()
+F (.\EEPROM.c)(0x5EFB91A6)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\eeprom.o --omf_browse .\objects\eeprom.crf --depend .\objects\eeprom.d)
+I (preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -78,10 +78,10 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
+I (main.h)(0x5EFB9044)
 F (.\EEPROM.h)(0x5ECD6628)()
-F (.\oled.c)(0x5EDD310E)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\oled.o --omf_browse .\objects\oled.crf --depend .\objects\oled.d)
-I (Preprocessor.h)(0x5EDD315A)
+F (.\oled.c)(0x5EFB9044)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\oled.o --omf_browse .\objects\oled.crf --depend .\objects\oled.d)
+I (Preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -98,10 +98,10 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
+I (main.h)(0x5EFB9044)
 F (.\oled.h)(0x5EDD319C)()
-F (.\com_io.c)(0x5EDCEB1E)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\com_io.o --omf_browse .\objects\com_io.crf --depend .\objects\com_io.d)
-I (preprocessor.h)(0x5EDD315A)
+F (.\com_io.c)(0x5EFB8E43)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\com_io.o --omf_browse .\objects\com_io.crf --depend .\objects\com_io.d)
+I (preprocessor.h)(0x5EFB89C8)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f030xc.h)(0x5978C20E)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm0.h)(0x5D25E516)
@@ -118,9 +118,9 @@ I (radio.h)(0x5EDCEDEA)
 I (EEPROM.h)(0x5ECD6628)
 I (oled.h)(0x5EDD319C)
 I (com_io.h)(0x5EDB8B13)
-I (main.h)(0x5EDCEADB)
+I (main.h)(0x5EFB9044)
 F (.\com_io.h)(0x5EDB8B13)()
-F (.\main.h)(0x5EDCEADB)()
+F (.\main.h)(0x5EFB9044)()
 F (RTE\Device\STM32F030RCTx\startup_stm32f030xc.s)(0x5978C20E)(--cpu Cortex-M0 --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "STM32F030xC SETA 1"--list .\listings\startup_stm32f030xc.lst --xref -o .\objects\startup_stm32f030xc.o --depend .\objects\startup_stm32f030xc.d)
 F (RTE\Device\STM32F030RCTx\system_stm32f0xx.c)(0x5978C20E)(--c99 -c --cpu Cortex-M0 -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\shayl\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F030xC-o .\objects\system_stm32f0xx.o --omf_browse .\objects\system_stm32f0xx.crf --depend .\objects\system_stm32f0xx.d)
 I (C:\Users\shayl\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x5978C20E)
