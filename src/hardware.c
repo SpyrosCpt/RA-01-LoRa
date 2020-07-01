@@ -210,7 +210,7 @@ void ADC_Setup(void)
 	ADC1->CFGR1 |= (0x00 <<ADC_CFGR1_RES_Pos);
 
 	// Select PCLK/4 as ADC clock
-	ADC1->CFGR2 |= (0x02 <<ADC_CFGR2_CKMODE_Pos);
+	ADC1->CFGR2 |= (0x01 <<ADC_CFGR2_CKMODE_Pos);
 	
 	/* calibration */
     ADC1->CR |= ADC_CR_ADCAL;               /* start ADc CALibration */
@@ -275,7 +275,6 @@ void SystemClock_Config(void)
 
 void Setup( void )
 {
-	//Clock_Setup();
 	SystemClock_Config();  //Setup clock
 	Ports_Setup();         //Setup GPIO
 	TIM17_Setup();         //Setup Timer17
@@ -290,7 +289,7 @@ void Setup( void )
 	OLED_DC_SET();
 	LORA_CS_SET();
 	DF_CS_CLR();
-	EE_EWEN();            //Enable EEPROM
+	EE_EWEN();            //EEPROM Write Enable
 	LORA_CS_SET();
 	
 	PrintfP("\nTesting, Hello World!");
@@ -309,6 +308,5 @@ void Setup( void )
 	setColAddress(0,127);
 	setPageAddress(0,7);
 	OLED_Clr(0);
-	ASK_CLR();
 	LoRaSetup();          //Setup LoRA
 }
